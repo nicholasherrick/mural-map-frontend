@@ -1,5 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const next = require('next');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const db = require('./models');
+const errorHandler = require('./middleware/error');
 
 const PORT = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -10,10 +15,12 @@ app
   .prepare()
   .then(() => {
     const server = express();
+    const showRoutes = require('./routes/index.js');
 
-    server.get('/api/murals', (req, res) => {
-      return res.end('We made it! WOW');
-    });
+    server.use(cors());
+    server.use(bodyParser.json());
+
+    server.use('/api', showRoutes(server));
 
     server.get('*', (req, res) => {
       return handle(req, res);
