@@ -1,4 +1,7 @@
+import Router from 'next/router';
+import Link from 'next/link';
 import Layout from '../components/Layout';
+import Message from '../components/Message';
 import { useState, useContext } from 'react';
 import AuthService from '../services/AuthService';
 import { AuthContext } from '../context/AuthContext';
@@ -19,7 +22,7 @@ const Auth = (props) => {
       if (isAuthenticated) {
         authContext.setUser(user);
         authContext.setIsAuthenticated(isAuthenticated);
-        props.history.push('/todos');
+        Router.push('/');
       } else {
         setMessage(message);
       }
@@ -29,17 +32,15 @@ const Auth = (props) => {
   return (
     <Layout>
       <div>
-        <h1>Welcome to Mural Map</h1>
-        <h2>Login/Register</h2>
+        <h2>Login</h2>
         <form onSubmit={handleSubmit}>
-          <div className='col-md-6 mx-auto'>
-            <div className='form-group'>
+          <div>
+            <div>
               <label htmlFor='email'>Email</label>
               <input
                 type='email'
                 name='email'
                 onChange={handleChange}
-                className='form-control'
                 placeholder='email@example.com'
               />
             </div>
@@ -49,14 +50,14 @@ const Auth = (props) => {
                 type='password'
                 name='password'
                 onChange={handleChange}
-                className='form-control'
                 placeholder='Enter password'
               />
             </div>
-            <button className='btn btn-lg btn-primary btn-block' type='submit'>
-              Login
-            </button>
-            {/* {message ? <Message message={message} /> : null} */}
+            <button type='submit'>Login</button>
+            <p className='text-center'>
+              Need an account? <Link href='/register'>Register</Link>
+            </p>
+            {message ? <Message message={message} /> : null}
           </div>
         </form>
       </div>

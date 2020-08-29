@@ -13,13 +13,13 @@ function routes(app) {
     login
   );
 
-  router.post(
+  router.get(
     '/auth/logout',
     passport.authenticate('jwt', { session: false }),
     logout
   );
 
-  router.post(
+  router.get(
     '/auth/authenticated',
     passport.authenticate('jwt', { session: false }),
     authenticated

@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const next = require('next');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const db = require('./models');
 const errorHandler = require('./middleware/error');
@@ -18,9 +19,12 @@ app
     const showRoutes = require('./routes/index.js');
 
     server.use(cors());
+    server.use(cookieParser());
     server.use(bodyParser.json());
 
     server.use('/api', showRoutes(server));
+
+    server.use(errorHandler);
 
     server.get('*', (req, res) => {
       return handle(req, res);

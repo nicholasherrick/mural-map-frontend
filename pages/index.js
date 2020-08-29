@@ -1,12 +1,13 @@
-import Head from 'next/head';
 import Layout from '../components/Layout';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 const Index = () => {
+  const { isAuthenticated } = useContext(AuthContext);
+
   return (
     <Layout>
-      <div>
-        <h1>Welcome to Mural Map</h1>
-      </div>
+      <div>{!isAuthenticated ? <h1>Welcome to Mural Map</h1> : null}</div>
     </Layout>
   );
 };

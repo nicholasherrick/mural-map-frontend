@@ -50,11 +50,13 @@ exports.register = async function (req, res, next) {
 };
 
 exports.logout = function (req, res) {
+  debugger;
   res.clearCookie('access_token');
-  res.json({ user: { email: '', role: '' }, success: true });
+  res.json({ user: { email: '', username: '' }, success: true });
+  debugger;
 };
 
 exports.authenticated = function (req, res) {
-  const { email, role } = req.user;
-  res.status(200).json({ isAuthenticated: true, user: { email, role } });
+  const { email, username } = req.user;
+  res.status(200).json({ isAuthenticated: true, user: { email, username } });
 };

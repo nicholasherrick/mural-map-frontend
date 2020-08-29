@@ -24,6 +24,7 @@ export default {
     });
   },
   logout: () => {
+    debugger;
     return fetch('/api/auth/logout')
       .then((res) => res.json())
       .then((data) => data);
