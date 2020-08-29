@@ -47,11 +47,13 @@ const Navbar = (props) => {
             list-style: none;
             background: #333;
             color: #fff;
+            margin: 0;
           }
 
           ul li {
             font-size: 2rem;
             margin-right: 2rem;
+            padding: 1rem;
           }
 
           ul li a {
@@ -69,12 +71,15 @@ const Navbar = (props) => {
         <ul>
           <li>
             <Link href='/'>
-              <a>Murals</a>
+              <a>Map</a>
             </Link>
           </li>
           <li>
+            <a>Logged in as {user.username}</a>
+          </li>
+          <li>
             <button type='button' onClick={handleLogout}>
-              Logout {user.email}
+              Logout
             </button>
           </li>
         </ul>
@@ -85,11 +90,13 @@ const Navbar = (props) => {
             list-style: none;
             background: #333;
             color: #fff;
+            margin: 0;
           }
 
           ul li {
             font-size: 2rem;
             margin-right: 2rem;
+            padding: 1rem;
           }
 
           ul li a {
