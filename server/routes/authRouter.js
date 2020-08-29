@@ -8,7 +8,7 @@ const signToken = (userId) => {
       sub: userId,
     },
     process.env.JWT_SECRET_KEY,
-    { expiresIn: '1h' }
+    { expiresIn: '24h' }
   );
 };
 
@@ -37,6 +37,10 @@ exports.register = async function (req, res, next) {
       email,
       username,
       token,
+      message: {
+        msgBody: 'Account created successfully',
+        msgError: false,
+      },
     });
   } catch (err) {
     if (err.code === 11000) {

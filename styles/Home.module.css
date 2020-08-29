@@ -115,6 +115,14 @@
   height: 1em;
 }
 
+.alert-danger {
+  color: red;
+}
+
+.alert-primary {
+  color: green;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

@@ -6,7 +6,12 @@ import AuthService from '../services/AuthService';
 import Message from '../components/Message';
 
 const Register = (props) => {
-  const [user, setUser] = useState({ email: '', username: '', password: '' });
+  const [user, setUser] = useState({
+    email: '',
+    username: '',
+    password: '',
+    repeatPassword: '',
+  });
   const [message, setMessage] = useState(null);
   let timerId = useRef(null);
 
@@ -17,7 +22,7 @@ const Register = (props) => {
   }, []);
 
   const resetForm = () => {
-    setUser({ email: '', username: '', password: '' });
+    setUser({ email: '', username: '', password: '', repeatPassword: '' });
   };
 
   const handleChange = (event) => {
@@ -26,25 +31,27 @@ const Register = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    AuthService.register(user).then((data) => {
-      const { message } = data;
-      setMessage(message);
-      resetForm();
-      if (!message.msgError) {
-        timerId = setTimeout(() => {
-          Router.push('/login');
-        }, 2000);
-      }
-    });
+    if (user.password === user.repeatPassword) {
+      AuthService.register(user).then((data) => {
+        const { message } = data;
+        setMessage(message);
+        resetForm();
+        if (!message.msgError) {
+          timerId = setTimeout(() => {
+            Router.push('/login');
+          }, 2000);
+        }
+      });
+    }
   };
 
   return (
     <Layout>
-      <div>
+      <div className='login-form'>
         <h2>Register</h2>
         <form onSubmit={handleSubmit}>
           <div>
-            <div>
+            <div className='input-group'>
               <label htmlFor='email'>Email</label>
               <input
                 type='email'
@@ -54,7 +61,7 @@ const Register = (props) => {
                 placeholder='email@example.com'
               />
             </div>
-            <div>
+            <div className='input-group'>
               <label htmlFor='email'>Username</label>
               <input
                 type='text'
@@ -64,7 +71,7 @@ const Register = (props) => {
                 placeholder='username'
               />
             </div>
-            <div>
+            <div className='input-group'>
               <label htmlFor='password'>Password</label>
               <input
                 type='password'
@@ -74,14 +81,70 @@ const Register = (props) => {
                 placeholder='Enter password'
               />
             </div>
+            <div className='input-group'>
+              <label htmlFor='repeatPassword'>Retype Password</label>
+              <input
+                type='password'
+                name='repeatPassword'
+                value={user.repeatPassword}
+                onChange={handleChange}
+                placeholder='Retype Password'
+              />
+            </div>
             <button type='submit'>Register</button>
-            <p className='text-center'>
-              Have an account? <Link href='/login'>Login</Link>
+            <p>
+              Have an account?{' '}
+              <Link href='/login'>
+                <a>Login</a>
+              </Link>
             </p>
             {message ? <Message message={message} /> : null}
           </div>
         </form>
       </div>
+
+      <style jsx>{`
+        .login-form {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          border: black 1px solid;
+          max-width: 25rem;
+          margin: auto;
+          margin-top: 3rem;
+        }
+
+        .input-group {
+          display: flex;
+          flex-direction: column;
+          max-width: 16rem;
+        }
+
+        input {
+          padding: 0.4rem;
+          font-size: 1.2rem;
+          width: 100%;
+        }
+
+        button {
+          margin-top: 1rem;
+          padding: 0.5rem 1.5rem;
+          background-color: blue;
+          border: none;
+          color: white;
+          font-weight: bold;
+          border-radius: 15px;
+        }
+
+        button:hover {
+          cursor: pointer;
+        }
+
+        a {
+          color: blue;
+        }
+      `}</style>
     </Layout>
   );
 };

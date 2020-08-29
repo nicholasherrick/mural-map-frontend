@@ -31,11 +31,11 @@ const Auth = (props) => {
 
   return (
     <Layout>
-      <div>
+      <div className='login-form'>
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
           <div>
-            <div>
+            <div className='input-group'>
               <label htmlFor='email'>Email</label>
               <input
                 type='email'
@@ -44,7 +44,7 @@ const Auth = (props) => {
                 placeholder='email@example.com'
               />
             </div>
-            <div className='form-group'>
+            <div className='input-group'>
               <label htmlFor='password'>Password</label>
               <input
                 type='password'
@@ -55,12 +55,58 @@ const Auth = (props) => {
             </div>
             <button type='submit'>Login</button>
             <p className='text-center'>
-              Need an account? <Link href='/register'>Register</Link>
+              Need an account?{' '}
+              <Link href='/register'>
+                <a>Register</a>
+              </Link>
             </p>
             {message ? <Message message={message} /> : null}
           </div>
         </form>
       </div>
+
+      <style jsx>{`
+        .login-form {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          border: black 1px solid;
+          max-width: 25rem;
+          margin: auto;
+          margin-top: 3rem;
+        }
+
+        .input-group {
+          display: flex;
+          flex-direction: column;
+          max-width: 16rem;
+        }
+
+        input {
+          padding: 0.4rem;
+          font-size: 1.2rem;
+          width: 100%;
+        }
+
+        button {
+          margin-top: 1rem;
+          padding: 0.5rem 1.5rem;
+          background-color: blue;
+          border: none;
+          color: white;
+          font-weight: bold;
+          border-radius: 15px;
+        }
+
+        button:hover {
+          cursor: pointer;
+        }
+
+        a {
+          color: blue;
+        }
+      `}</style>
     </Layout>
   );
 };

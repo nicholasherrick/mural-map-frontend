@@ -73,7 +73,13 @@ const Index = () => {
     <Layout>
       <div>
         {!isAuthenticated ? (
-          <h1>Welcome to Mural Map</h1>
+          <div>
+            <h1>Welcome to Mural Map</h1>
+            <h3>
+              Mural Map allows users to discover and share murals with other
+              users
+            </h3>
+          </div>
         ) : (
           <div>
             <h1>Mural Map</h1>
@@ -130,6 +136,11 @@ const Index = () => {
           z-index: 10;
           margin: 0;
           padding: 0;
+        }
+
+        h3 {
+          margin-top: 8rem;
+          margin-left: 1rem;
         }
       `}</style>
     </Layout>

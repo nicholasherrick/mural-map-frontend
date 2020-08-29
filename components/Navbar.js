@@ -87,6 +87,8 @@ const Navbar = (props) => {
         <style jsx>{`
           ul {
             display: flex;
+            justify-content: space-evenly;
+            align-items: center;
             list-style: none;
             background: #333;
             color: #fff;
@@ -102,6 +104,18 @@ const Navbar = (props) => {
           ul li a {
             color: #fff;
             text-decoration: none;
+          }
+
+          button {
+            padding: 0.5rem 1rem;
+            background-color: yellow;
+            font-weight: bold;
+            border: black solid 2px;
+            font-size: 1rem;
+          }
+
+          button:hover {
+            cursor: pointer;
           }
         `}</style>
       </div>
