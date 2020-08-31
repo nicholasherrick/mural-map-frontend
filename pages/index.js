@@ -1,4 +1,6 @@
 import Layout from '../components/Layout';
+import Search from '../components/Search';
+import Locate from '../components/Locate';
 import { useContext, useState, useCallback, useRef, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { MuralService } from '../services/MuralService';
@@ -9,17 +11,6 @@ import {
   InfoWindow,
 } from '@react-google-maps/api';
 import { formatRelative } from 'date-fns';
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from 'use-places-autocomplete';
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-} from '@reach/combobox';
 import mapStyles from '../mapStyles';
 
 const libraries = ['places'];
@@ -166,129 +157,5 @@ const Index = () => {
     </Layout>
   );
 };
-
-function Locate({ panTo }) {
-  const [location, setLocation] = useState({ lat: '', lng: '' });
-
-  return (
-    <div>
-      <button
-        onClick={() => {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              setLocation({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              });
-              panTo({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              });
-            },
-            () => null
-          );
-        }}
-      >
-        <img src='person.svg' alt='locate me' />
-      </button>
-      <small>Get Current Location</small>
-
-      <style jsx>{`
-        button {
-          position: absolute;
-          top: 6rem;
-          right: 2.7rem;
-          background: none;
-          border: none;
-          z-index: 10;
-        }
-
-        small {
-          position: absolute;
-          top: 8rem;
-          right: 0.5rem;
-          background: none;
-          border: none;
-          z-index: 10;
-        }
-
-        img {
-          width: 30px;
-          cursor: pointer;
-        }
-      `}</style>
-    </div>
-  );
-}
-
-function Search({ panTo }) {
-  const {
-    ready,
-    value,
-    suggestions: { status, data },
-    setValue,
-    clearSuggestions,
-  } = usePlacesAutocomplete({
-    requestOptions: {
-      location: { lat: () => 39.739235, lng: () => -104.99025 },
-      radius: 200 * 1000,
-    },
-  });
-  return (
-    <div className='search'>
-      <Combobox
-        onSelect={async (address) => {
-          setValue(address, false);
-          clearSuggestions();
-
-          try {
-            const results = await getGeocode({ address });
-            const { lat, lng } = await getLatLng(results[0]);
-
-            panTo({ lat, lng });
-          } catch (err) {
-            console.log('error!');
-          }
-        }}
-      >
-        <ComboboxInput
-          value={value}
-          onChange={(e) => {
-            setValue(e.target.value);
-          }}
-          disabled={!ready}
-          placeholder='search locations'
-        />
-
-        <ComboboxPopover>
-          <ComboboxList>
-            {status === 'OK' &&
-              data.map(({ id, description }) => (
-                <ComboboxOption key={id} value={description} />
-              ))}
-          </ComboboxList>
-        </ComboboxPopover>
-      </Combobox>
-
-      <style jsx>{`
-        .search {
-          position: absolute;
-          top: 6rem;
-          left: 60%;
-          transform: translateX(-50%);
-          width: 100%;
-          max-width: 400px;
-          z-index: 10;
-        }
-
-        .search > input {
-          padding: 5rem;
-          font-size: 1.5rem;
-          width: 100%;
-        }
-      `}</style>
-    </div>
-  );
-}
 
 export default Index;

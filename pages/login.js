@@ -74,7 +74,7 @@ const Auth = (props) => {
           border: black 1px solid;
           max-width: 25rem;
           margin: auto;
-          margin-top: 3rem;
+          margin-top: 7rem;
         }
 
         .input-group {
