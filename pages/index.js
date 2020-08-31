@@ -1,6 +1,7 @@
 import Layout from '../components/Layout';
-import { useContext, useState, useCallback, useRef } from 'react';
+import { useContext, useState, useCallback, useRef, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { MuralService } from '../services/MuralService';
 import {
   GoogleMap,
   useLoadScript,
@@ -23,7 +24,7 @@ import mapStyles from '../mapStyles';
 
 const libraries = ['places'];
 const mapContainerStyle = {
-  width: '100vw',
+  width: '100%',
   height: '100vh',
 };
 const center = {
@@ -38,6 +39,17 @@ const options = {
 
 const Index = () => {
   const { isAuthenticated } = useContext(AuthContext);
+  const [mural, setMural] = useState({
+    title: '',
+    artist: '',
+    instagram: '',
+    latitude: '',
+    longitude: '',
+    picture: '',
+  });
+  const [murals, setMurals] = useState([]);
+  const [location, setLocation] = useState({ lat: '', lng: '' });
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries: libraries,
@@ -58,6 +70,17 @@ const Index = () => {
 
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLocation({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+    });
+    // MuralService.getMurals().then((data) => {
+    // setMurals(data)
+    // setMarkers(data)
+    // console.log(data);
+    // });
     mapRef.current = map;
   }, []);
 
@@ -72,61 +95,63 @@ const Index = () => {
   return (
     <Layout>
       <div>
-        {!isAuthenticated ? (
-          <div>
-            <h1>Welcome to Mural Map</h1>
-            <h3>
-              Mural Map allows users to discover and share murals with other
-              users
-            </h3>
-          </div>
-        ) : (
-          <div>
-            <h1>Mural Map</h1>
+        {!isAuthenticated ? <h1>Welcome to Mural Map</h1> : <h1>Mural Map</h1>}
 
-            <Search panTo={panTo} />
-            <Locate panTo={panTo} />
+        <div>
+          <Search panTo={panTo} />
+          <Locate panTo={panTo} />
 
-            <GoogleMap
-              mapContainerStyle={mapContainerStyle}
-              zoom={8}
-              center={center}
-              options={options}
-              onClick={onMapClick}
-              onLoad={onMapLoad}
-            >
-              {markers.map((marker) => (
-                <Marker
-                  key={marker.time.toISOString()}
-                  position={{ lat: marker.lat, lng: marker.lng }}
-                  icon={{
-                    url: '/museum.svg',
-                    scaledSize: new window.google.maps.Size(30, 30),
-                    origin: new window.google.maps.Point(0, 0),
-                    anchor: new window.google.maps.Point(15, 15),
-                  }}
-                  onClick={() => {
-                    setSelected(marker);
-                  }}
-                />
-              ))}
+          <GoogleMap
+            mapContainerStyle={mapContainerStyle}
+            zoom={8}
+            center={center}
+            options={options}
+            onClick={onMapClick}
+            onLoad={onMapLoad}
+          >
+            {navigator.geolocation ? (
+              <Marker
+                key='1'
+                position={location}
+                icon={{
+                  url: 'marker.svg',
+                  scaledSize: new window.google.maps.Size(30, 30),
+                  origin: new window.google.maps.Point(0, 0),
+                  anchor: new window.google.maps.Point(15, 15),
+                }}
+              />
+            ) : null}
+            {markers.map((marker) => (
+              <Marker
+                key={marker.time.toISOString()}
+                position={{ lat: marker.lat, lng: marker.lng }}
+                icon={{
+                  url: '/museum.svg',
+                  scaledSize: new window.google.maps.Size(30, 30),
+                  origin: new window.google.maps.Point(0, 0),
+                  anchor: new window.google.maps.Point(15, 15),
+                }}
+                onClick={() => {
+                  setSelected(marker);
+                }}
+              />
+            ))}
 
-              {selected ? (
-                <InfoWindow
-                  position={{ lat: selected.lat, lng: selected.lng }}
-                  onCloseClick={() => {
-                    setSelected(null);
-                  }}
-                >
-                  <div>
-                    <h2>Mural Here</h2>
-                    <p>Added {formatRelative(selected.time, new Date())}</p>
-                  </div>
-                </InfoWindow>
-              ) : null}
-            </GoogleMap>
-          </div>
-        )}
+            {selected ? (
+              <InfoWindow
+                position={{ lat: selected.lat, lng: selected.lng }}
+                onCloseClick={() => {
+                  setSelected(null);
+                }}
+              >
+                <div>
+                  <h2>Mural Here</h2>
+                  <p>Added {formatRelative(selected.time, new Date())}</p>
+                </div>
+              </InfoWindow>
+            ) : null}
+          </GoogleMap>
+        </div>
       </div>
       <style jsx>{`
         h1 {
@@ -137,23 +162,24 @@ const Index = () => {
           margin: 0;
           padding: 0;
         }
-
-        h3 {
-          margin-top: 8rem;
-          margin-left: 1rem;
-        }
       `}</style>
     </Layout>
   );
 };
 
 function Locate({ panTo }) {
+  const [location, setLocation] = useState({ lat: '', lng: '' });
+
   return (
     <div>
       <button
         onClick={() => {
           navigator.geolocation.getCurrentPosition(
             (position) => {
+              setLocation({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+              });
               panTo({
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
@@ -165,12 +191,22 @@ function Locate({ panTo }) {
       >
         <img src='person.svg' alt='locate me' />
       </button>
+      <small>Get Current Location</small>
 
       <style jsx>{`
         button {
           position: absolute;
           top: 6rem;
-          right: 1rem;
+          right: 2.7rem;
+          background: none;
+          border: none;
+          z-index: 10;
+        }
+
+        small {
+          position: absolute;
+          top: 8rem;
+          right: 0.5rem;
           background: none;
           border: none;
           z-index: 10;
@@ -221,7 +257,7 @@ function Search({ panTo }) {
             setValue(e.target.value);
           }}
           disabled={!ready}
-          placeholder='Enter an address'
+          placeholder='search locations'
         />
 
         <ComboboxPopover>
@@ -238,7 +274,7 @@ function Search({ panTo }) {
         .search {
           position: absolute;
           top: 6rem;
-          left: 50%;
+          left: 60%;
           transform: translateX(-50%);
           width: 100%;
           max-width: 400px;

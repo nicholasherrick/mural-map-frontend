@@ -22,11 +22,11 @@ const Navbar = (props) => {
 
   const unauthenticatedNavbar = () => {
     return (
-      <div>
+      <div className='navbar'>
         <ul>
           <li>
             <Link href='/'>
-              <a>Welcome</a>
+              <a>Map</a>
             </Link>
           </li>
           <li>
@@ -42,12 +42,19 @@ const Navbar = (props) => {
         </ul>
 
         <style jsx>{`
+          .navbar {
+            position: fixed;
+            width: 100%;
+            z-index: 10;
+          }
+
           ul {
             display: flex;
             list-style: none;
             background: #333;
             color: #fff;
             margin: 0;
+            width: 100%;
           }
 
           ul li {
@@ -67,7 +74,7 @@ const Navbar = (props) => {
 
   const authenticatedNavbar = () => {
     return (
-      <div>
+      <div className='navbar'>
         <ul>
           <li>
             <Link href='/'>
@@ -85,7 +92,14 @@ const Navbar = (props) => {
         </ul>
 
         <style jsx>{`
+          .navbar {
+            position: fixed;
+            width: 100%;
+            z-index: 10;
+          }
+
           ul {
+            padding: 0;
             display: flex;
             justify-content: space-evenly;
             align-items: center;
@@ -93,6 +107,7 @@ const Navbar = (props) => {
             background: #333;
             color: #fff;
             margin: 0;
+            width: 100%;
           }
 
           ul li {
