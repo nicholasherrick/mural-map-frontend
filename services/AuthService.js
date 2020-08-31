@@ -8,7 +8,11 @@ export default {
       },
     }).then((res) => {
       if (res.status !== 401) return res.json().then((data) => data);
-      else return { isAuthenticated: false, user: { email: '', username: '' } };
+      else
+        return {
+          isAuthenticated: false,
+          user: { _id: '', email: '', username: '' },
+        };
     });
   },
   login: (user) => {
@@ -20,7 +24,11 @@ export default {
       },
     }).then((res) => {
       if (res.status !== 401) return res.json().then((data) => data);
-      else return { isAuthenticated: false, user: { email: '', username: '' } };
+      else
+        return {
+          isAuthenticated: false,
+          user: { _id: '', email: '', username: '' },
+        };
     });
   },
   logout: () => {
@@ -33,7 +41,11 @@ export default {
   isAuthenticated: () => {
     return fetch('/api/auth/authenticated').then((res) => {
       if (res.status !== 401) return res.json().then((data) => data);
-      else return { isAuthenticated: false, user: { email: '', username: '' } };
+      else
+        return {
+          isAuthenticated: false,
+          user: { _id: '', email: '', username: '' },
+        };
     });
   },
 };

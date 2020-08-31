@@ -20,7 +20,7 @@ exports.login = async function (req, res, next) {
       res.cookie('access_token', token, { httpOnly: true, sameSite: true });
       res
         .status(200)
-        .json({ isAuthenticated: true, user: { email, username } });
+        .json({ isAuthenticated: true, user: { _id, email, username } });
     }
   } catch (err) {
     return next({ status: 400, message: 'Invalid Email/Password' });
@@ -56,11 +56,13 @@ exports.register = async function (req, res, next) {
 exports.logout = function (req, res) {
   debugger;
   res.clearCookie('access_token');
-  res.json({ user: { email: '', username: '' }, success: true });
+  res.json({ user: { _id: '', email: '', username: '' }, success: true });
   debugger;
 };
 
 exports.authenticated = function (req, res) {
-  const { email, username } = req.user;
-  res.status(200).json({ isAuthenticated: true, user: { email, username } });
+  const { _id, email, username } = req.user;
+  res
+    .status(200)
+    .json({ isAuthenticated: true, user: { _id, email, username } });
 };
