@@ -14,9 +14,9 @@ export default {
       } else return { message: { msgBody: 'Unauthorized' }, msgError: true };
     });
   },
-  createMural: (mural, id) => {
+  createMural: (mural, userId) => {
     return axios
-      .post(`/api/users/${id}/mural/create`, mural, headers)
+      .post(`/api/users/${userId}/mural/create`, mural, headers)
       .then((response) => {
         console.log(response);
         if (response.status !== 401) {
@@ -26,5 +26,14 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+  },
+  deleteMural: (muralId, userId) => {
+    return fetch(`/api/users/${userId}/mural/delete/${muralId}`, {
+      method: 'delete',
+    }).then((response) => {
+      if (response.status !== 401) {
+        return response.json().then((data) => data);
+      } else return { message: { msgBody: 'Unauthorized' }, msgError: true };
+    });
   },
 };
