@@ -4,6 +4,8 @@ const next = require('next');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+// const formData = require('express-form-data');
+const os = require('os');
 const db = require('./models');
 const errorHandler = require('./middleware/error');
 
@@ -21,6 +23,19 @@ app
     server.use(cors());
     server.use(cookieParser());
     server.use(bodyParser.json());
+    // parse data with connect-multiparty.
+    // server.use(
+    //   formData.parse({
+    //     uploadDir: os.tmpdir(),
+    //     autoClean: false,
+    //   })
+    // );
+    // // delete from the request all empty files (size == 0)
+    // server.use(formData.format());
+    // // change the file objects to fs.ReadStream
+    // server.use(formData.stream());
+    // // union the body and the files
+    // server.use(formData.union());
 
     server.use('/api', showRoutes(server));
 

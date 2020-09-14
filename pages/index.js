@@ -1,16 +1,18 @@
 import Layout from '../components/Layout';
 import Search from '../components/Search';
 import Locate from '../components/Locate';
-import { useContext, useState, useCallback, useRef, useEffect } from 'react';
+import CreateMuralModal from '../components/CreateMuralModal';
+import useModal from '../components/useModal';
+import MuralService from '../services/MuralService';
+import { useContext, useState, useCallback, useRef } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { MuralService } from '../services/MuralService';
 import {
   GoogleMap,
   useLoadScript,
   Marker,
   InfoWindow,
 } from '@react-google-maps/api';
-import { formatRelative } from 'date-fns';
+import moment from 'moment';
 import mapStyles from '../mapStyles';
 
 const libraries = ['places'];
@@ -30,16 +32,9 @@ const options = {
 
 const Index = () => {
   const { isAuthenticated } = useContext(AuthContext);
-  const [mural, setMural] = useState({
-    title: '',
-    artist: '',
-    instagram: '',
-    latitude: '',
-    longitude: '',
-    picture: '',
-  });
-  const [murals, setMurals] = useState([]);
-  const [location, setLocation] = useState({ lat: '', lng: '' });
+  const [location, setLocation] = useState({ lat: 39.739235, lng: -104.99025 });
+  const [muralLocation, setMuralLocation] = useState({ lat: '', lng: '' });
+  const { isShowing, toggle } = useModal();
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -49,29 +44,39 @@ const Index = () => {
   const [selected, setSelected] = useState(null);
 
   const onMapClick = useCallback((event) => {
-    setMarkers((current) => [
-      ...current,
-      {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-        time: new Date(),
-      },
-    ]);
+    setMuralLocation({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+    toggle();
   }, []);
 
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
+    MuralService.getMurals().then((data) => {
+      data.map((mural) => {
+        setMarkers((current) => [
+          ...current,
+          {
+            id: mural._id,
+            time: mural.createdAt,
+            title: mural.title,
+            artist: mural.artist,
+            instagram: mural.instagram,
+            lat: parseFloat(mural.lattitude),
+            lng: parseFloat(mural.longitude),
+            pictures: mural.pictures,
+          },
+        ]);
+        setMuralLocation({
+          lat: mural.lattitude,
+          lng: mural.longitude,
+        });
+      });
+    });
     navigator.geolocation.getCurrentPosition((position) => {
       setLocation({
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       });
     });
-    // MuralService.getMurals().then((data) => {
-    // setMurals(data)
-    // setMarkers(data)
-    // console.log(data);
-    // });
     mapRef.current = map;
   }, []);
 
@@ -100,6 +105,13 @@ const Index = () => {
             onClick={onMapClick}
             onLoad={onMapLoad}
           >
+            <CreateMuralModal
+              isShowing={isShowing}
+              hide={toggle}
+              lat={muralLocation.lat}
+              lng={muralLocation.lng}
+            />
+
             {navigator.geolocation ? (
               <Marker
                 key='1'
@@ -112,21 +124,24 @@ const Index = () => {
                 }}
               />
             ) : null}
-            {markers.map((marker) => (
-              <Marker
-                key={marker.time.toISOString()}
-                position={{ lat: marker.lat, lng: marker.lng }}
-                icon={{
-                  url: '/museum.svg',
-                  scaledSize: new window.google.maps.Size(30, 30),
-                  origin: new window.google.maps.Point(0, 0),
-                  anchor: new window.google.maps.Point(15, 15),
-                }}
-                onClick={() => {
-                  setSelected(marker);
-                }}
-              />
-            ))}
+
+            {isLoaded
+              ? markers.map((marker) => (
+                  <Marker
+                    key={marker.id}
+                    position={{ lat: marker.lat, lng: marker.lng }}
+                    icon={{
+                      url: '/museum.svg',
+                      scaledSize: new window.google.maps.Size(30, 30),
+                      origin: new window.google.maps.Point(0, 0),
+                      anchor: new window.google.maps.Point(15, 15),
+                    }}
+                    onClick={() => {
+                      setSelected(marker);
+                    }}
+                  />
+                ))
+              : null}
 
             {selected ? (
               <InfoWindow
@@ -136,8 +151,23 @@ const Index = () => {
                 }}
               >
                 <div>
-                  <h2>Mural Here</h2>
-                  <p>Added {formatRelative(selected.time, new Date())}</p>
+                  {selected.pictures
+                    ? selected.pictures.map((picture) => (
+                        <img key={picture} src={picture}></img>
+                      ))
+                    : null}
+                  <h2>{selected.title}</h2>
+                  <p>Artist: {selected.artist}</p>
+                  <p>
+                    Instagram:{' '}
+                    <a
+                      href={`https://www.instagram.com/${selected.instagram}/`}
+                      target='_blank'
+                    >
+                      {selected.instagram}
+                    </a>
+                  </p>
+                  <p>Added {moment(selected.time).fromNow()}</p>
                 </div>
               </InfoWindow>
             ) : null}
@@ -152,6 +182,10 @@ const Index = () => {
           z-index: 10;
           margin: 0;
           padding: 0;
+        }
+
+        img {
+          max-width: 200px;
         }
       `}</style>
     </Layout>

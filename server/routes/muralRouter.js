@@ -1,5 +1,5 @@
 const db = require('../models');
-const cloudinary = require('cloudinary');
+const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
 
 cloudinary.config({
@@ -23,14 +23,20 @@ exports.getMurals = async function (req, res, next) {
 };
 
 exports.createMural = async function (req, res, next) {
+  let path = `./files/${req.file.filename}`;
   if (req.file) {
-    coudinary.uploader
-      .upload(`./files/${req.file.originalname}`, function (result) {
-        console.log(result);
+    cloudinary.uploader
+      .upload(path, function (err, image) {
+        db.Mural.create({
+          title: req.body.title,
+          artist: req.body.artist,
+          instagram: req.body.instagram,
+          lattitude: req.body.lattitude,
+          longitude: req.body.longitude,
+          pictures: image.url,
+        });
       })
       .then(function () {
-        let path = `./files/${req.file.originalname}`;
-
         fs.unlink(path, (err) => {
           if (err) {
             console.log(err);
@@ -42,8 +48,8 @@ exports.createMural = async function (req, res, next) {
       .catch(function (err) {
         console.log(err.error);
       });
-    res.sendStatus(200).json(req);
+    res.sendStatus(200);
   } else {
-    res.sendStatus(200).json(req);
+    res.sendStatus(200);
   }
 };

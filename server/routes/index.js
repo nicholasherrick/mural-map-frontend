@@ -9,11 +9,11 @@ const multer = require('multer');
 const storage = multer.diskStorage({
   destination: './files',
   filename(req, file, cb) {
-    cb(null, `${file.originalname}`);
+    cb(null, `${file.originalname}-${Date.now()}`);
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage }).single('file');
 
 function routes(app) {
   // =====AuthRoutes=====
@@ -40,7 +40,7 @@ function routes(app) {
   // =====MuralRoutes=====
   router.get('/murals', getMurals);
 
-  router.post('/users/:id/mural/create', upload.single('file'), createMural);
+  router.post('/users/:id/mural/create', upload, createMural);
 
   return router;
 }
