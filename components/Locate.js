@@ -43,6 +43,7 @@ function Locate({ panTo }) {
           background: none;
           border: none;
           z-index: 10;
+          background-color: white;
         }
 
         img {

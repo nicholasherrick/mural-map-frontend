@@ -29,16 +29,18 @@ const Navbar = (props) => {
               <a>Map</a>
             </Link>
           </li>
-          <li>
-            <Link href='/login'>
-              <a>Login</a>
-            </Link>
-          </li>
-          <li>
-            <Link href='/register'>
-              <a>Register</a>
-            </Link>
-          </li>
+          <div className='auth-links'>
+            <li>
+              <Link href='/login'>
+                <button>Login</button>
+              </Link>
+            </li>
+            <li>
+              <Link href='/register'>
+                <button>Register</button>
+              </Link>
+            </li>
+          </div>
         </ul>
 
         <style jsx>{`
@@ -51,6 +53,8 @@ const Navbar = (props) => {
 
           ul {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
             list-style: none;
             background: #333;
             color: #fff;
@@ -59,14 +63,27 @@ const Navbar = (props) => {
           }
 
           ul li {
-            font-size: 2rem;
-            margin-right: 2rem;
             padding: 1rem;
           }
 
           ul li a {
             color: #fff;
             text-decoration: none;
+            font-size: 2rem;
+            margin-right: 2rem;
+            padding: 1rem;
+          }
+
+          .auth-links {
+            display: flex;
+          }
+
+          button {
+            padding: 0.5rem 1rem;
+            background-color: yellow;
+            font-weight: bold;
+            border: black solid 2px;
+            font-size: 1rem;
           }
         `}</style>
       </div>
@@ -79,17 +96,19 @@ const Navbar = (props) => {
         <ul>
           <li>
             <Link href='/'>
-              <a>Map</a>
+              <a>Mural Map</a>
             </Link>
           </li>
-          <li>
-            <a>Logged in as {user.username}</a>
-          </li>
-          <li>
-            <button type='button' onClick={handleLogout}>
-              Logout
-            </button>
-          </li>
+          <div className='auth-links'>
+            <li>
+              <a>Logged in as {user.username}</a>
+            </li>
+            <li>
+              <button type='button' onClick={handleLogout}>
+                Logout
+              </button>
+            </li>
+          </div>
         </ul>
 
         <style jsx>{`
@@ -102,7 +121,7 @@ const Navbar = (props) => {
           ul {
             padding: 0;
             display: flex;
-            justify-content: space-evenly;
+            justify-content: space-between;
             align-items: center;
             list-style: none;
             background: #333;
@@ -112,7 +131,6 @@ const Navbar = (props) => {
           }
 
           ul li {
-            font-size: 2rem;
             margin-right: 2rem;
             padding: 1rem;
           }
@@ -120,6 +138,11 @@ const Navbar = (props) => {
           ul li a {
             color: #fff;
             text-decoration: none;
+            font-size: 2rem;
+          }
+
+          .auth-links {
+            display: flex;
           }
 
           button {

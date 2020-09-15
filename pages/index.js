@@ -95,7 +95,7 @@ const Index = () => {
   return (
     <Layout>
       <div>
-        {!isAuthenticated ? <h1>Welcome to Mural Map</h1> : <h1>Mural Map</h1>}
+        {!isAuthenticated ? <h1>Welcome to Mural Map</h1> : null}
 
         <div>
           <Search panTo={panTo} />

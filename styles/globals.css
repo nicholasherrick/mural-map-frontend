@@ -20,4 +20,5 @@ a {
   padding: 0.5rem;
   font-size: 1.5rem;
   width: 100%;
+  border: solid black 2px;
 }
