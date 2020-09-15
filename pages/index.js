@@ -218,10 +218,15 @@ const Index = () => {
           z-index: 10;
           margin: 0;
           padding: 0;
+          background-color: white;
         }
 
         img {
           max-width: 200px;
+        }
+
+        .search > input {
+          padding: 1.5rem;
         }
       `}</style>
     </Layout>

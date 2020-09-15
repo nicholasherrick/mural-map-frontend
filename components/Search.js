@@ -23,6 +23,7 @@ function Search({ panTo }) {
       radius: 200 * 1000,
     },
   });
+
   return (
     <div className='search'>
       <Combobox
@@ -63,17 +64,11 @@ function Search({ panTo }) {
         .search {
           position: absolute;
           top: 6rem;
-          left: 60%;
+          left: 50%;
           transform: translateX(-50%);
           width: 100%;
           max-width: 400px;
           z-index: 10;
-        }
-
-        .search > input {
-          padding: 5rem;
-          font-size: 1.5rem;
-          width: 100%;
         }
       `}</style>
     </div>
