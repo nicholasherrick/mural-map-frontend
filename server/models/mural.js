@@ -6,22 +6,27 @@ const muralSchema = new mongoose.Schema(
     title: {
       type: String,
       maxLength: 160,
+      trim: true,
     },
     artist: {
       type: String,
       maxLength: 160,
+      trim: true,
     },
     instagram: {
       type: String,
       maxLength: 160,
+      trim: true,
     },
     lattitude: {
       type: String,
       required: true,
+      trim: true,
     },
     longitude: {
       type: String,
       required: true,
+      trim: true,
     },
     pictures: [
       {

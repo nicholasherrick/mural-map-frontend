@@ -33,7 +33,12 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
     for (var pair of formData.entries()) {
       console.log(pair[0] + ', ' + pair[1]);
     }
-    MuralService.createMural(formData, user._id);
+    MuralService.createMural(formData, user._id).then((res) => {
+      console.log(res.status);
+      if (res.status === 200) {
+        window.location.reload();
+      }
+    });
   };
 
   return isShowing

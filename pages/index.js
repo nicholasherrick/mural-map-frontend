@@ -4,7 +4,7 @@ import Locate from '../components/Locate';
 import CreateMuralModal from '../components/CreateMuralModal';
 import useModal from '../components/useModal';
 import MuralService from '../services/MuralService';
-import { useContext, useState, useCallback, useRef } from 'react';
+import { useContext, useState, useCallback, useRef, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import {
   GoogleMap,
@@ -31,7 +31,7 @@ const options = {
 };
 
 const Index = () => {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, user } = useContext(AuthContext);
   const [location, setLocation] = useState({ lat: 39.739235, lng: -104.99025 });
   const [muralLocation, setMuralLocation] = useState({ lat: '', lng: '' });
   const { isShowing, toggle } = useModal();
@@ -47,6 +47,8 @@ const Index = () => {
     setMuralLocation({ lat: event.latLng.lat(), lng: event.latLng.lng() });
     toggle();
   }, []);
+
+  // useEffect(() => {});
 
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
@@ -168,6 +170,40 @@ const Index = () => {
                     </a>
                   </p>
                   <p>Added {moment(selected.time).fromNow()}</p>
+                  <button
+                    onClick={() => {
+                      MuralService.deleteMural(selected.id, user._id).then(
+                        (res) => {
+                          if (res.status === 200) {
+                            window.location.reload();
+                            // MuralService.getMurals().then((data) => {
+                            //   data.map((mural) => {
+                            //     setMarkers((current) => [
+                            //       ...current,
+                            //       {
+                            //         id: mural._id,
+                            //         time: mural.createdAt,
+                            //         title: mural.title,
+                            //         artist: mural.artist,
+                            //         instagram: mural.instagram,
+                            //         lat: parseFloat(mural.lattitude),
+                            //         lng: parseFloat(mural.longitude),
+                            //         pictures: mural.pictures,
+                            //       },
+                            //     ]);
+                            //     setMuralLocation({
+                            //       lat: mural.lattitude,
+                            //       lng: mural.longitude,
+                            //     });
+                            //   });
+                            // });
+                          }
+                        }
+                      );
+                    }}
+                  >
+                    Delete
+                  </button>
                 </div>
               </InfoWindow>
             ) : null}

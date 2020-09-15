@@ -26,8 +26,8 @@ exports.createMural = async function (req, res, next) {
   let path = `./files/${req.file.filename}`;
   if (req.file) {
     cloudinary.uploader
-      .upload(path, function (err, image) {
-        db.Mural.create({
+      .upload(path, async function (err, image) {
+        await db.Mural.create({
           title: req.body.title,
           artist: req.body.artist,
           instagram: req.body.instagram,
@@ -35,6 +35,7 @@ exports.createMural = async function (req, res, next) {
           longitude: req.body.longitude,
           pictures: image.url,
         });
+        console.log(image);
       })
       .then(function () {
         fs.unlink(path, (err) => {
@@ -51,5 +52,16 @@ exports.createMural = async function (req, res, next) {
     res.sendStatus(200);
   } else {
     res.sendStatus(200);
+  }
+};
+
+exports.deleteMural = async function (req, res, next) {
+  try {
+    await db.Mural.findOneAndDelete(req.params.muralId);
+    return res.status(200).json({
+      message: { msgBody: 'Mural successfully deleted', msgError: false },
+    });
+  } catch (err) {
+    return next(err);
   }
 };

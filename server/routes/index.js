@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { register, login, logout, authenticated } = require('./authRouter');
-const { getMurals, createMural } = require('./muralRouter');
+const { getMurals, createMural, deleteMural } = require('./muralRouter');
 const passport = require('passport');
 const passportConfig = require('../middleware/passport');
 const multer = require('multer');
@@ -41,6 +41,8 @@ function routes(app) {
   router.get('/murals', getMurals);
 
   router.post('/users/:id/mural/create', upload, createMural);
+
+  router.delete('/users/:userId/mural/delete/:muralId', deleteMural);
 
   return router;
 }
