@@ -2,7 +2,9 @@ import Layout from '../components/Layout';
 import Search from '../components/Search';
 import Locate from '../components/Locate';
 import CreateMuralModal from '../components/CreateMuralModal';
+import EditMuralModal from '../components/EditMuralModal';
 import useModal from '../components/useModal';
+import useEditModal from '../components/useEditModal';
 import MuralService from '../services/MuralService';
 import { useContext, useState, useCallback, useRef, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
@@ -35,6 +37,7 @@ const Index = () => {
   const [location, setLocation] = useState({ lat: 39.739235, lng: -104.99025 });
   const [muralLocation, setMuralLocation] = useState({ lat: '', lng: '' });
   const { isShowing, toggle } = useModal();
+  const { isEditShowing, editToggle } = useEditModal();
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -116,6 +119,14 @@ const Index = () => {
               lng={muralLocation.lng}
             />
 
+            <EditMuralModal
+              isEditShowing={isEditShowing}
+              hide={editToggle}
+              lat={muralLocation.lat}
+              lng={muralLocation.lng}
+              mural={selected}
+            />
+
             {navigator.geolocation ? (
               <Marker
                 key='1'
@@ -173,40 +184,53 @@ const Index = () => {
                   </p>
                   <p>Added {moment(selected.time).fromNow()}</p>
                   {isAuthenticated ? (
-                    <button
-                      onClick={() => {
-                        MuralService.deleteMural(selected.id, user._id).then(
-                          (res) => {
-                            if (res.status === 200) {
-                              window.location.reload();
-                              // MuralService.getMurals().then((data) => {
-                              //   data.map((mural) => {
-                              //     setMarkers((current) => [
-                              //       ...current,
-                              //       {
-                              //         id: mural._id,
-                              //         time: mural.createdAt,
-                              //         title: mural.title,
-                              //         artist: mural.artist,
-                              //         instagram: mural.instagram,
-                              //         lat: parseFloat(mural.lattitude),
-                              //         lng: parseFloat(mural.longitude),
-                              //         pictures: mural.pictures,
-                              //       },
-                              //     ]);
-                              //     setMuralLocation({
-                              //       lat: mural.lattitude,
-                              //       lng: mural.longitude,
-                              //     });
-                              //   });
-                              // });
+                    <div>
+                      <button
+                        onClick={() => {
+                          setMuralLocation({
+                            lat: selected.lat,
+                            lng: selected.lng,
+                          });
+                          editToggle();
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          MuralService.deleteMural(selected.id, user._id).then(
+                            (res) => {
+                              if (res.status === 200) {
+                                window.location.reload();
+                                // MuralService.getMurals().then((data) => {
+                                //   data.map((mural) => {
+                                //     setMarkers((current) => [
+                                //       ...current,
+                                //       {
+                                //         id: mural._id,
+                                //         time: mural.createdAt,
+                                //         title: mural.title,
+                                //         artist: mural.artist,
+                                //         instagram: mural.instagram,
+                                //         lat: parseFloat(mural.lattitude),
+                                //         lng: parseFloat(mural.longitude),
+                                //         pictures: mural.pictures,
+                                //       },
+                                //     ]);
+                                //     setMuralLocation({
+                                //       lat: mural.lattitude,
+                                //       lng: mural.longitude,
+                                //     });
+                                //   });
+                                // });
+                              }
                             }
-                          }
-                        );
-                      }}
-                    >
-                      Delete
-                    </button>
+                          );
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   ) : null}
                 </div>
               </InfoWindow>
@@ -227,6 +251,10 @@ const Index = () => {
 
         img {
           max-width: 200px;
+        }
+
+        button {
+          margin: 0 0.5rem;
         }
       `}</style>
     </Layout>
