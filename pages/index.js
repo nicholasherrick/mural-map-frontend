@@ -44,8 +44,10 @@ const Index = () => {
   const [selected, setSelected] = useState(null);
 
   const onMapClick = useCallback((event) => {
-    setMuralLocation({ lat: event.latLng.lat(), lng: event.latLng.lng() });
-    toggle();
+    if (isAuthenticated) {
+      setMuralLocation({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+      toggle();
+    }
   }, []);
 
   // useEffect(() => {});
@@ -170,40 +172,42 @@ const Index = () => {
                     </a>
                   </p>
                   <p>Added {moment(selected.time).fromNow()}</p>
-                  <button
-                    onClick={() => {
-                      MuralService.deleteMural(selected.id, user._id).then(
-                        (res) => {
-                          if (res.status === 200) {
-                            window.location.reload();
-                            // MuralService.getMurals().then((data) => {
-                            //   data.map((mural) => {
-                            //     setMarkers((current) => [
-                            //       ...current,
-                            //       {
-                            //         id: mural._id,
-                            //         time: mural.createdAt,
-                            //         title: mural.title,
-                            //         artist: mural.artist,
-                            //         instagram: mural.instagram,
-                            //         lat: parseFloat(mural.lattitude),
-                            //         lng: parseFloat(mural.longitude),
-                            //         pictures: mural.pictures,
-                            //       },
-                            //     ]);
-                            //     setMuralLocation({
-                            //       lat: mural.lattitude,
-                            //       lng: mural.longitude,
-                            //     });
-                            //   });
-                            // });
+                  {isAuthenticated ? (
+                    <button
+                      onClick={() => {
+                        MuralService.deleteMural(selected.id, user._id).then(
+                          (res) => {
+                            if (res.status === 200) {
+                              window.location.reload();
+                              // MuralService.getMurals().then((data) => {
+                              //   data.map((mural) => {
+                              //     setMarkers((current) => [
+                              //       ...current,
+                              //       {
+                              //         id: mural._id,
+                              //         time: mural.createdAt,
+                              //         title: mural.title,
+                              //         artist: mural.artist,
+                              //         instagram: mural.instagram,
+                              //         lat: parseFloat(mural.lattitude),
+                              //         lng: parseFloat(mural.longitude),
+                              //         pictures: mural.pictures,
+                              //       },
+                              //     ]);
+                              //     setMuralLocation({
+                              //       lat: mural.lattitude,
+                              //       lng: mural.longitude,
+                              //     });
+                              //   });
+                              // });
+                            }
                           }
-                        }
-                      );
-                    }}
-                  >
-                    Delete
-                  </button>
+                        );
+                      }}
+                    >
+                      Delete
+                    </button>
+                  ) : null}
                 </div>
               </InfoWindow>
             ) : null}
@@ -223,10 +227,6 @@ const Index = () => {
 
         img {
           max-width: 200px;
-        }
-
-        .search > input {
-          padding: 1.5rem;
         }
       `}</style>
     </Layout>
