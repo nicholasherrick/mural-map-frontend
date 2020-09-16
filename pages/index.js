@@ -1,3 +1,4 @@
+import getConfig from 'next/config';
 import Layout from '../components/Layout';
 import Search from '../components/Search';
 import Locate from '../components/Locate';
@@ -16,6 +17,9 @@ import {
 } from '@react-google-maps/api';
 import moment from 'moment';
 import mapStyles from '../mapStyles';
+import { serverRuntimeConfig } from '../next.config';
+
+const { publicRuntimeConfig } = getConfig();
 
 const libraries = ['places'];
 const mapContainerStyle = {
@@ -40,7 +44,9 @@ const Index = () => {
   const { isEditShowing, editToggle } = useEditModal();
 
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey:
+      process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ||
+      publicRuntimeConfig.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries: libraries,
   });
   const [markers, setMarkers] = useState([]);
