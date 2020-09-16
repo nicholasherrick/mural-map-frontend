@@ -67,13 +67,17 @@ exports.deleteMural = async function (req, res, next) {
   try {
     const mural = await db.Mural.findById(req.params.muralId);
     await db.Mural.findOneAndDelete(req.params.muralId);
-    await cloudinary.uploader.destroy(mural.cloudinaryPublicId, function (
-      error,
-      result
-    ) {
-      console.log(error);
-      console.log(result);
-    });
+
+    if (mural.cloudinaryPublicId) {
+      await cloudinary.uploader.destroy(mural.cloudinaryPublicId, function (
+        error,
+        result
+      ) {
+        console.log(error);
+        console.log(result);
+      });
+    }
+
     return res.status(200).json({
       message: { msgBody: 'Mural successfully deleted', msgError: false },
     });

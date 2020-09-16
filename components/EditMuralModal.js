@@ -50,7 +50,9 @@ const CreateMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
     MuralService.editMural(mural.id, user._id, formData).then((res) => {
       console.log(res.status);
       if (res.status === 200) {
-        window.location.reload();
+        setTimeout(function () {
+          window.location.reload();
+        }, 3000);
       }
     });
   };

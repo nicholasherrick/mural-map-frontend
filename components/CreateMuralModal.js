@@ -38,7 +38,7 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
       if (res.status === 200) {
         setTimeout(function () {
           window.location.reload();
-        }, 2000);
+        }, 3000);
       }
     });
   };
