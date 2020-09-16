@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
     unique: true,
     trim: true,
   },
+  instagram: {
+    type: String,
+    trim: true,
+  },
   password: {
     type: String,
     required: true,

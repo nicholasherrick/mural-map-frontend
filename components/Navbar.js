@@ -9,11 +9,8 @@ const Navbar = (props) => {
   );
 
   const handleLogout = () => {
-    debugger;
     AuthService.logout().then((data) => {
-      debugger;
       if (data.success) {
-        debugger;
         setUser(data.user);
         setIsAuthenticated(false);
       }

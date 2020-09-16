@@ -15,12 +15,13 @@ const signToken = (userId) => {
 exports.login = async function (req, res, next) {
   try {
     if (req.isAuthenticated()) {
-      const { _id, email, username } = await req.user;
+      const { _id, email, username, instagram } = await req.user;
       const token = await signToken(_id);
       res.cookie('access_token', token, { httpOnly: true, sameSite: true });
-      res
-        .status(200)
-        .json({ isAuthenticated: true, user: { _id, email, username } });
+      res.status(200).json({
+        isAuthenticated: true,
+        user: { _id, email, username, instagram },
+      });
     }
   } catch (err) {
     return next({ status: 400, message: 'Invalid Email/Password' });
@@ -30,12 +31,13 @@ exports.login = async function (req, res, next) {
 exports.register = async function (req, res, next) {
   try {
     let user = await User.create(req.body);
-    let { id, email, username } = user;
+    let { id, email, username, instagram } = user;
     let token = signToken(id);
     return res.status(201).json({
       id,
       email,
       username,
+      instagram,
       token,
       message: {
         msgBody: 'Account created successfully',
@@ -56,13 +58,17 @@ exports.register = async function (req, res, next) {
 exports.logout = function (req, res) {
   debugger;
   res.clearCookie('access_token');
-  res.json({ user: { _id: '', email: '', username: '' }, success: true });
+  res.json({
+    user: { _id: '', email: '', username: '', instagram: '' },
+    success: true,
+  });
   debugger;
 };
 
 exports.authenticated = function (req, res) {
   const { _id, email, username } = req.user;
-  res
-    .status(200)
-    .json({ isAuthenticated: true, user: { _id, email, username } });
+  res.status(200).json({
+    isAuthenticated: true,
+    user: { _id, email, username, instagram: '' },
+  });
 };

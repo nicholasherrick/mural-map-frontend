@@ -17,7 +17,6 @@ import {
 } from '@react-google-maps/api';
 import moment from 'moment';
 import mapStyles from '../mapStyles';
-import { serverRuntimeConfig } from '../next.config';
 
 const { publicRuntimeConfig } = getConfig();
 

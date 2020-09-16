@@ -11,6 +11,7 @@ const Register = (props) => {
     username: '',
     password: '',
     repeatPassword: '',
+    instagram: '',
   });
   const [message, setMessage] = useState(null);
   let timerId = useRef(null);
@@ -22,7 +23,13 @@ const Register = (props) => {
   }, []);
 
   const resetForm = () => {
-    setUser({ email: '', username: '', password: '', repeatPassword: '' });
+    setUser({
+      email: '',
+      username: '',
+      password: '',
+      repeatPassword: '',
+      instagram: '',
+    });
   };
 
   const handleChange = (event) => {
@@ -69,6 +76,16 @@ const Register = (props) => {
                 value={user.username}
                 onChange={handleChange}
                 placeholder='username'
+              />
+            </div>
+            <div className='input-group'>
+              <label htmlFor='instagram'>Instagram</label>
+              <input
+                type='text'
+                name='instagram'
+                value={user.instagram}
+                onChange={handleChange}
+                placeholder='instagram'
               />
             </div>
             <div className='input-group'>
