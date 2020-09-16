@@ -27,13 +27,15 @@ exports.createMural = async function (req, res, next) {
     let path = `./files/${req.file.filename}`;
     cloudinary.uploader
       .upload(path, async function (err, image) {
+        console.log(image);
         await db.Mural.create({
           title: req.body.title,
           artist: req.body.artist,
           instagram: req.body.instagram,
           lattitude: req.body.lattitude,
           longitude: req.body.longitude,
-          pictures: image.url,
+          cloudinaryUrl: image.url,
+          cloudinaryPublicId: image.public_id,
         });
       })
       .then(function () {
@@ -63,7 +65,15 @@ exports.createMural = async function (req, res, next) {
 
 exports.deleteMural = async function (req, res, next) {
   try {
+    const mural = await db.Mural.findById(req.params.muralId);
     await db.Mural.findOneAndDelete(req.params.muralId);
+    await cloudinary.uploader.destroy(mural.cloudinaryPublicId, function (
+      error,
+      result
+    ) {
+      console.log(error);
+      console.log(result);
+    });
     return res.status(200).json({
       message: { msgBody: 'Mural successfully deleted', msgError: false },
     });
@@ -85,7 +95,8 @@ exports.editMural = async function (req, res, next) {
                 title: req.body.title,
                 artist: req.body.artist,
                 instagram: req.body.instagram,
-                pictures: image.url,
+                cloudinaryUrl: image.url,
+                cloudinaryPublicId: image.public_id,
               },
             }
           );
@@ -99,12 +110,21 @@ exports.editMural = async function (req, res, next) {
             console.log('File successfully removed from server');
           });
         })
+        .then(function () {
+          console.log(req.body.oldCloudinaryPublicId);
+          cloudinary.uploader.destroy(req.body.oldCloudinaryPublicId, function (
+            error,
+            result
+          ) {
+            console.log(result);
+            console.log(error);
+          });
+        })
         .catch(function (err) {
           console.log(err.error);
         });
       res.sendStatus(200);
     } else {
-      console.log(req.body);
       await db.Mural.findOneAndUpdate(
         { _id: req.params.muralId },
         {

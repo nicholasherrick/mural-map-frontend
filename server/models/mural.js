@@ -28,11 +28,12 @@ const muralSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    pictures: [
-      {
-        type: String,
-      },
-    ],
+    cloudinaryUrl: {
+      type: String,
+    },
+    cloudinaryPublicId: {
+      type: String,
+    },
   },
   {
     timestamps: true,

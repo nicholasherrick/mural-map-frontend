@@ -9,6 +9,8 @@ const CreateMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
     title: null,
     artist: null,
     instagram: null,
+    oldCloudinaryURL: null,
+    oldCloudinaryPublicId: null,
   });
   const [file, setFile] = useState();
   const fileInput = React.createRef();
@@ -40,11 +42,11 @@ const CreateMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
     formData.append('longitude', lng);
 
     if (file) {
+      formData.append('oldCloudinaryUrl', mural.cloudinaryUrl);
+      formData.append('oldCloudinaryPublicId', mural.cloudinaryPublicId);
       formData.append('file', file);
     }
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
+
     MuralService.editMural(mural.id, user._id, formData).then((res) => {
       console.log(res.status);
       if (res.status === 200) {
@@ -105,7 +107,7 @@ const CreateMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
                       onChange={handleChange}
                     />
                   </div>
-                  <img src={mural.pictures[0]} alt='' />
+                  <img src={mural.cloudinaryUrl} alt='' />
                   <div className='group'>
                     <label htmlFor='file'>Change image?</label>
                     <input

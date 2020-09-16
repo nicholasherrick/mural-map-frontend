@@ -69,7 +69,8 @@ const Index = () => {
             instagram: mural.instagram,
             lat: parseFloat(mural.lattitude),
             lng: parseFloat(mural.longitude),
-            pictures: mural.pictures,
+            cloudinaryUrl: mural.cloudinaryUrl,
+            cloudinaryPublicId: mural.cloudinaryPublicId,
           },
         ]);
         setMuralLocation({
@@ -166,11 +167,9 @@ const Index = () => {
                 }}
               >
                 <div>
-                  {selected.pictures
-                    ? selected.pictures.map((picture) => (
-                        <img key={picture} src={picture}></img>
-                      ))
-                    : null}
+                  {selected.cloudinaryUrl ? (
+                    <img src={selected.cloudinaryUrl}></img>
+                  ) : null}
                   <h2>{selected.title}</h2>
                   <p>Artist: {selected.artist}</p>
                   <p>
@@ -202,27 +201,6 @@ const Index = () => {
                             (res) => {
                               if (res.status === 200) {
                                 window.location.reload();
-                                // MuralService.getMurals().then((data) => {
-                                //   data.map((mural) => {
-                                //     setMarkers((current) => [
-                                //       ...current,
-                                //       {
-                                //         id: mural._id,
-                                //         time: mural.createdAt,
-                                //         title: mural.title,
-                                //         artist: mural.artist,
-                                //         instagram: mural.instagram,
-                                //         lat: parseFloat(mural.lattitude),
-                                //         lng: parseFloat(mural.longitude),
-                                //         pictures: mural.pictures,
-                                //       },
-                                //     ]);
-                                //     setMuralLocation({
-                                //       lat: mural.lattitude,
-                                //       lng: mural.longitude,
-                                //     });
-                                //   });
-                                // });
                               }
                             }
                           );
