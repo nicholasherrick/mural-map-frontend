@@ -79,7 +79,7 @@ const Register = (props) => {
               />
             </div>
             <div className='input-group'>
-              <label htmlFor='instagram'>Instagram</label>
+              <label htmlFor='instagram'>Instagram (optional)</label>
               <input
                 type='text'
                 name='instagram'
