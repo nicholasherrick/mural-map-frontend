@@ -23,8 +23,8 @@ exports.getMurals = async function (req, res, next) {
 };
 
 exports.createMural = async function (req, res, next) {
-  let path = `./files/${req.file.filename}`;
   if (req.file) {
+    let path = `./files/${req.file.filename}`;
     cloudinary.uploader
       .upload(path, async function (err, image) {
         await db.Mural.create({
@@ -35,7 +35,6 @@ exports.createMural = async function (req, res, next) {
           longitude: req.body.longitude,
           pictures: image.url,
         });
-        console.log(image);
       })
       .then(function () {
         fs.unlink(path, (err) => {
@@ -51,6 +50,13 @@ exports.createMural = async function (req, res, next) {
       });
     res.sendStatus(200);
   } else {
+    await db.Mural.create({
+      title: req.body.title,
+      artist: req.body.artist,
+      instagram: req.body.instagram,
+      lattitude: req.body.lattitude,
+      longitude: req.body.longitude,
+    });
     res.sendStatus(200);
   }
 };
@@ -61,6 +67,56 @@ exports.deleteMural = async function (req, res, next) {
     return res.status(200).json({
       message: { msgBody: 'Mural successfully deleted', msgError: false },
     });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.editMural = async function (req, res, next) {
+  try {
+    if (req.file) {
+      let path = `./files/${req.file.filename}`;
+      cloudinary.uploader
+        .upload(path, async function (err, image) {
+          await db.Mural.findOneAndUpdate(
+            { _id: req.params.muralId },
+            {
+              $set: {
+                title: req.body.title,
+                artist: req.body.artist,
+                instagram: req.body.instagram,
+                pictures: image.url,
+              },
+            }
+          );
+        })
+        .then(function () {
+          fs.unlink(path, (err) => {
+            if (err) {
+              console.log(err);
+              return;
+            }
+            console.log('File successfully removed from server');
+          });
+        })
+        .catch(function (err) {
+          console.log(err.error);
+        });
+      res.sendStatus(200);
+    } else {
+      console.log(req.body);
+      await db.Mural.findOneAndUpdate(
+        { _id: req.params.muralId },
+        {
+          $set: {
+            title: req.body.title,
+            artist: req.body.artist,
+            instagram: req.body.instagram,
+          },
+        }
+      );
+      res.sendStatus(200);
+    }
   } catch (err) {
     return next(err);
   }

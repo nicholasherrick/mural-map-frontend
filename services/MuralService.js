@@ -36,13 +36,13 @@ export default {
       } else return { message: { msgBody: 'Unauthorized' }, msgError: true };
     });
   },
-  editMural: (muralId, userId) => {
-    return fetch(`/api/users/${userId}/mural/edit/${muralId}`, {
-      method: 'put',
-    }).then((response) => {
-      if (response.status !== 401) {
-        return response;
-      } else return { message: { msgBody: 'Unauthorized' }, msgError: true };
-    });
+  editMural: (muralId, userId, mural) => {
+    return axios
+      .put(`/api/users/${userId}/mural/edit/${muralId}`, mural, headers)
+      .then((response) => {
+        if (response.status !== 401) {
+          return response;
+        } else return { message: { msgBody: 'Unauthorized' }, msgError: true };
+      });
   },
 };

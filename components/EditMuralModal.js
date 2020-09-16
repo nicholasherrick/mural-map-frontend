@@ -6,9 +6,9 @@ import { AuthContext } from '../context/AuthContext';
 const CreateMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
   const { user } = useContext(AuthContext);
   const [muralData, setMuralData] = useState({
-    title: '',
-    artist: '',
-    instagram: '',
+    title: null,
+    artist: null,
+    instagram: null,
   });
   const [file, setFile] = useState();
   const fileInput = React.createRef();
@@ -21,9 +21,21 @@ const CreateMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
     // e.preventDefault();
 
     const formData = new FormData();
-    formData.append('title', muralData.title);
-    formData.append('artist', muralData.artist);
-    formData.append('instagram', muralData.instagram);
+    if (muralData.title) {
+      formData.append('title', muralData.title);
+    } else {
+      formData.append('title', mural.title);
+    }
+    if (muralData.artist) {
+      formData.append('artist', muralData.artist);
+    } else {
+      formData.append('artist', mural.artist);
+    }
+    if (muralData.instagram) {
+      formData.append('instagram', muralData.instagram);
+    } else {
+      formData.append('instagram', mural.instagram);
+    }
     formData.append('lattitude', lat);
     formData.append('longitude', lng);
 
@@ -33,7 +45,7 @@ const CreateMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
     for (var pair of formData.entries()) {
       console.log(pair[0] + ', ' + pair[1]);
     }
-    MuralService.createMural(formData, user._id).then((res) => {
+    MuralService.editMural(mural.id, user._id, formData).then((res) => {
       console.log(res.status);
       if (res.status === 200) {
         window.location.reload();
