@@ -171,16 +171,16 @@ const Index = () => {
                     <img src={selected.cloudinaryUrl}></img>
                   ) : null}
                   <h2>{selected.title}</h2>
-                  <p>Artist: {selected.artist}</p>
-                  <p>
-                    Instagram:{' '}
-                    <a
-                      href={`https://www.instagram.com/${selected.instagram}/`}
-                      target='_blank'
-                    >
-                      {selected.instagram}
-                    </a>
-                  </p>
+                  <strong>Artist</strong>
+                  <p>{selected.artist}</p>
+                  <strong>Instagram</strong>
+                  <br />
+                  <a
+                    href={`https://www.instagram.com/${selected.instagram}/`}
+                    target='_blank'
+                  >
+                    {selected.instagram}
+                  </a>
                   <p>Added {moment(selected.time).fromNow()}</p>
                   {isAuthenticated ? (
                     <div>
@@ -227,12 +227,21 @@ const Index = () => {
           background-color: white;
         }
 
+        p {
+          margin: 0.3rem 0;
+        }
+
         img {
           max-width: 200px;
         }
 
         button {
           margin: 0 0.5rem;
+        }
+
+        a {
+          color: blue;
+          margin: 0.3rem 0;
         }
       `}</style>
     </Layout>

@@ -38,7 +38,7 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
       if (res.status === 200) {
         setTimeout(function () {
           window.location.reload();
-        }, 3000);
+        }, 4000);
       }
     });
   };
@@ -68,34 +68,47 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
               </div>
               <div>
                 <form onSubmit={handleSubmit}>
-                  <input
-                    placeholder='title'
-                    type='text'
-                    name='title'
-                    onChange={handleChange}
-                  />
-                  <input
-                    placeholder='artist'
-                    type='text'
-                    name='artist'
-                    onChange={handleChange}
-                  />
-                  <input
-                    placeholder='instagram'
-                    type='text'
-                    name='instagram'
-                    onChange={handleChange}
-                  />
-                  <input
-                    ref={fileInput}
-                    type='file'
-                    name='file'
-                    id='file'
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      setFile(file);
-                    }}
-                  />
+                  <div className='group'>
+                    <label htmlFor='title'>Title</label>
+                    <input
+                      placeholder='title'
+                      type='text'
+                      name='title'
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className='group'>
+                    <label htmlFor='artist'>Artist</label>
+                    <input
+                      placeholder='artist'
+                      type='text'
+                      name='artist'
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className='group'>
+                    <label htmlFor='instagram'>Instagram</label>
+                    <input
+                      placeholder='instagram'
+                      type='text'
+                      name='instagram'
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className='group'>
+                    <label htmlFor='file'>Choose Image</label>
+                    <input
+                      ref={fileInput}
+                      accept='image/*'
+                      type='file'
+                      name='file'
+                      id='file'
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        setFile(file);
+                      }}
+                    />
+                  </div>
                   <button type='submit'>Submit</button>
                 </form>
               </div>
@@ -148,6 +161,17 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
               opacity: 0.3;
               cursor: pointer;
               border: none;
+            }
+
+            .group {
+              display: flex;
+              flex-direction: column;
+            }
+
+            input {
+              padding: 0.3rem;
+              font-size: 1.3rem;
+              margin-top: 0.5rem;
             }
 
             button {

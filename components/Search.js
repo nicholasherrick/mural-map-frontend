@@ -70,6 +70,19 @@ function Search({ panTo }) {
           max-width: 400px;
           z-index: 10;
         }
+
+        @media screen and (max-width: 1024px) {
+          .search {
+            left: 30%;
+          }
+        }
+
+        @media screen and (max-width: 720px) {
+          .search {
+            left: 50%;
+            top: 12rem;
+          }
+        }
       `}</style>
     </div>
   );

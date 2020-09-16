@@ -51,6 +51,16 @@ function Locate({ panTo }) {
           width: 30px;
           cursor: pointer;
         }
+
+        @media screen and (max-width: 720px) {
+          button {
+            top: 14rem;
+          }
+
+          small {
+            top: 16rem;
+          }
+        }
       `}</style>
     </div>
   );

@@ -52,7 +52,7 @@ const CreateMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
       if (res.status === 200) {
         setTimeout(function () {
           window.location.reload();
-        }, 3000);
+        }, 4000);
       }
     });
   };
@@ -181,6 +181,12 @@ const CreateMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
             .group {
               display: flex;
               flex-direction: column;
+            }
+
+            input {
+              padding: 0.3rem;
+              font-size: 1.3rem;
+              margin-top: 0.5rem;
             }
 
             img {
