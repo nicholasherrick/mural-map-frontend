@@ -166,6 +166,30 @@ const Navbar = (props) => {
           button:hover {
             cursor: pointer;
           }
+
+          @media screen and (max-width: 720px) {
+            .app-links {
+              flex-direction: column;
+            }
+
+            .auth-links {
+              flex-direction: column;
+            }
+
+            ul {
+              flex-direction: column;
+            }
+
+            ul li {
+              padding: 0.3rem 0;
+              margin: 0;
+              text-align: center;
+            }
+
+            ul li a {
+              font-size: 1.1rem;
+            }
+          }
         `}</style>
       </div>
     );
