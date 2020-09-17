@@ -30,17 +30,17 @@ exports.login = async function (req, res, next) {
 
 exports.register = async function (req, res, next) {
   try {
-    User.findOne(req.body.email, async (err, user) => {
+    const requestEmail = req.body.email;
+    User.findOne({ requestEmail }, async (err, user) => {
       if (err) {
+        console.log(err);
         res
           .status(500)
           .json({ message: { msgBody: 'Error has occurred', msgError: true } });
       } else if (user) {
-        res
-          .status(400)
-          .json({
-            message: { msgBody: 'Email is already taken', msgError: true },
-          });
+        res.status(400).json({
+          message: { msgBody: 'Email is already taken', msgError: true },
+        });
       } else {
         let user = await User.create(req.body);
         let { id, email, username, instagram } = user;
