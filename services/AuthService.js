@@ -11,7 +11,7 @@ export default {
       else
         return {
           isAuthenticated: false,
-          user: { _id: '', email: '', username: '' },
+          user: { _id: '', email: '', username: '', instagram: '' },
         };
     });
   },
@@ -27,7 +27,7 @@ export default {
       else
         return {
           isAuthenticated: false,
-          user: { _id: '', email: '', username: '' },
+          user: { _id: '', email: '', username: '', instagram: '' },
         };
     });
   },
@@ -43,7 +43,7 @@ export default {
       else
         return {
           isAuthenticated: false,
-          user: { _id: '', email: '', username: '' },
+          user: { _id: '', email: '', username: '', instagram: '' },
         };
     });
   },

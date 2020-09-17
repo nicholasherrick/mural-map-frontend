@@ -41,6 +41,7 @@ const Register = (props) => {
     if (user.password === user.repeatPassword) {
       AuthService.register(user).then((data) => {
         const { message } = data;
+        console.log(message);
         setMessage(message);
         resetForm();
         if (!message.msgError) {

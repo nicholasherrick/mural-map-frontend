@@ -30,19 +30,33 @@ exports.login = async function (req, res, next) {
 
 exports.register = async function (req, res, next) {
   try {
-    let user = await User.create(req.body);
-    let { id, email, username, instagram } = user;
-    let token = signToken(id);
-    return res.status(201).json({
-      id,
-      email,
-      username,
-      instagram,
-      token,
-      message: {
-        msgBody: 'Account created successfully',
-        msgError: false,
-      },
+    User.findOne(req.body.email, async (err, user) => {
+      if (err) {
+        res
+          .status(500)
+          .json({ message: { msgBody: 'Error has occurred', msgError: true } });
+      } else if (user) {
+        res
+          .status(400)
+          .json({
+            message: { msgBody: 'Email is already taken', msgError: true },
+          });
+      } else {
+        let user = await User.create(req.body);
+        let { id, email, username, instagram } = user;
+        let token = signToken(id);
+        return res.status(201).json({
+          id,
+          email,
+          username,
+          instagram,
+          token,
+          message: {
+            msgBody: 'Account created successfully',
+            msgError: false,
+          },
+        });
+      }
     });
   } catch (err) {
     if (err.code === 11000) {
