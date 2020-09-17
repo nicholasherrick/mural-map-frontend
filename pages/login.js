@@ -6,7 +6,7 @@ import { useState, useContext } from 'react';
 import AuthService from '../services/AuthService';
 import { AuthContext } from '../context/AuthContext';
 
-const Auth = (props) => {
+const Login = (props) => {
   const [user, setUser] = useState({ email: '', password: '' });
   const [message, setMessage] = useState(null);
   const authContext = useContext(AuthContext);
@@ -111,4 +111,4 @@ const Auth = (props) => {
   );
 };
 
-export default Auth;
+export default Login;

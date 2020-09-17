@@ -91,14 +91,23 @@ const Navbar = (props) => {
     return (
       <div className='navbar'>
         <ul>
-          <li>
-            <Link href='/'>
-              <a>Mural Map</a>
-            </Link>
-          </li>
+          <div className='app-links'>
+            <li>
+              <Link href='/'>
+                <a>Mural Map</a>
+              </Link>
+            </li>
+            <li>
+              <Link href='profile'>
+                <a>Profile</a>
+              </Link>
+            </li>
+          </div>
           <div className='auth-links'>
             <li>
-              <a>Logged in as {user.username}</a>
+              <Link href='/profile'>
+                <a>Logged in as {user.username}</a>
+              </Link>
             </li>
             <li>
               <button type='button' onClick={handleLogout}>
@@ -136,6 +145,10 @@ const Navbar = (props) => {
             color: #fff;
             text-decoration: none;
             font-size: 2rem;
+          }
+
+          .app-links {
+            display: flex;
           }
 
           .auth-links {
