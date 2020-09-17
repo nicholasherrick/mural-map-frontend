@@ -7,8 +7,19 @@ const getStyle = (props) => {
 
 const Message = (props) => {
   return (
-    <div className={getStyle(props)} role='alert'>
-      {props.message.msgBody}
+    <div>
+      <div className={getStyle(props)} role='alert'>
+        {props.message.msgBody}
+      </div>
+      <style jsx>{`
+        .alert-danger {
+          color: red;
+        }
+
+        .alert-primary {
+          color: green;
+        }
+      `}</style>
     </div>
   );
 };

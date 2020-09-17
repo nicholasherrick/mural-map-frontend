@@ -23,12 +23,20 @@ export default {
         'Content-Type': 'application/json',
       },
     }).then((res) => {
-      if (res.status !== 401) return res.json().then((data) => data);
-      else
+      if (res.status === 400) {
+        return {
+          isAuthenticated: false,
+          user: { _id: '', email: '', username: '', instagram: '' },
+          message: { msgBody: 'Invalid email/password', msgError: true },
+        };
+      } else if (res.status !== 401) {
+        return res.json().then((data) => data);
+      } else {
         return {
           isAuthenticated: false,
           user: { _id: '', email: '', username: '', instagram: '' },
         };
+      }
     });
   },
   logout: () => {

@@ -22,8 +22,15 @@ exports.login = async function (req, res, next) {
         isAuthenticated: true,
         user: { _id, email, username, instagram },
       });
+    } else {
+      res
+        .status(500)
+        .json({ message: { msgBody: 'Error has occurred', msgError: true } });
     }
   } catch (err) {
+    res
+      .status(400)
+      .json({ message: { msgBody: 'Invalid Email/Password', msgError: true } });
     return next({ status: 400, message: 'Invalid Email/Password' });
   }
 };
@@ -42,20 +49,26 @@ exports.register = async function (req, res, next) {
           message: { msgBody: 'Email is already taken', msgError: true },
         });
       } else {
-        let user = await User.create(req.body);
-        let { id, email, username, instagram } = user;
-        let token = signToken(id);
-        return res.status(201).json({
-          id,
-          email,
-          username,
-          instagram,
-          token,
-          message: {
-            msgBody: 'Account created successfully',
-            msgError: false,
-          },
-        });
+        try {
+          let user = await User.create(req.body);
+          let { id, email, username, instagram } = user;
+          let token = signToken(id);
+          return res.status(201).json({
+            id,
+            email,
+            username,
+            instagram,
+            token,
+            message: {
+              msgBody: 'Account created successfully',
+              msgError: false,
+            },
+          });
+        } catch (err) {
+          res.status(500).json({
+            message: { msgBody: 'Error has occurred', msgError: true },
+          });
+        }
       }
     });
   } catch (err) {
