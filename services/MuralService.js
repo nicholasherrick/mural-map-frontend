@@ -18,7 +18,6 @@ export default {
     return axios
       .post(`/api/users/${userId}/mural/create`, mural, headers)
       .then((response) => {
-        console.log(response);
         if (response.status !== 401) {
           return response;
         } else return { message: { msgBody: 'Unauthorized' }, msgError: true };

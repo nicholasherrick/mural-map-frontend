@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { register, login, logout, authenticated } = require('./authRouter');
+const { loginRequired, ensureCorrectUser } = require('../middleware/auth');
 const {
   getMurals,
   createMural,
@@ -45,11 +46,28 @@ function routes(app) {
   // =====MuralRoutes=====
   router.get('/murals', getMurals);
 
-  router.post('/users/:id/mural/create', upload, createMural);
+  router.post(
+    '/users/:userId/mural/create',
+    // loginRequired,
+    // ensureCorrectUser,
+    upload,
+    createMural
+  );
 
-  router.delete('/users/:userId/mural/delete/:muralId', deleteMural);
+  router.delete(
+    '/users/:userId/mural/delete/:muralId',
+    // loginRequired,
+    // ensureCorrectUser,
+    deleteMural
+  );
 
-  router.put('/users/:userId/mural/edit/:muralId', upload, editMural);
+  router.put(
+    '/users/:userId/mural/edit/:muralId',
+    // loginRequired,
+    // ensureCorrectUser,
+    upload,
+    editMural
+  );
 
   return router;
 }

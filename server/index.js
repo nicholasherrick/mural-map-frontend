@@ -4,7 +4,6 @@ const next = require('next');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-// const formData = require('express-form-data');
 const os = require('os');
 const db = require('./models');
 const errorHandler = require('./middleware/error');
