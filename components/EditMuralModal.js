@@ -48,7 +48,6 @@ const CreateMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
     }
 
     MuralService.editMural(mural.id, user._id, formData).then((res) => {
-      console.log(res.status);
       if (res.status === 200) {
         setTimeout(function () {
           window.location.reload();
@@ -59,77 +58,77 @@ const CreateMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
 
   return isEditShowing
     ? ReactDOM.createPortal(
-        <React.Fragment>
-          <div className='modal-overlay' />
-          <div
-            className='modal-wrapper'
-            aria-modal
-            aria-hidden
-            tabIndex={-1}
-            role='dialog'
-          >
-            <div className='modal'>
-              <div className='modal-header'>
-                <button
-                  type='button'
-                  className='modal-close-button'
-                  data-dismiss='modal'
-                  aria-label='Close'
-                  onClick={hide}
-                >
-                  <span aria-hidden='true'>&times;</span>
-                </button>
-              </div>
-              <div>
-                <form onSubmit={handleSubmit}>
-                  <div className='group'>
-                    <label htmlFor='title'>Title</label>
-                    <input
-                      placeholder={mural.title}
-                      type='text'
-                      name='title'
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className='group'>
-                    <label htmlFor='artist'>Artist</label>
-                    <input
-                      placeholder={mural.artist}
-                      type='text'
-                      name='artist'
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className='group'>
-                    <label htmlFor='instagram'>Instagram</label>
-                    <input
-                      placeholder={mural.instagram}
-                      type='text'
-                      name='instagram'
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <img src={mural.cloudinaryUrl} alt='' />
-                  <div className='group'>
-                    <label htmlFor='file'>Change image?</label>
-                    <input
-                      ref={fileInput}
-                      type='file'
-                      name='file'
-                      id='file'
-                      onChange={(e) => {
-                        const file = e.target.files[0];
-                        setFile(file);
-                      }}
-                    />
-                  </div>
+      <React.Fragment>
+        <div className='modal-overlay' />
+        <div
+          className='modal-wrapper'
+          aria-modal
+          aria-hidden
+          tabIndex={-1}
+          role='dialog'
+        >
+          <div className='modal'>
+            <div className='modal-header'>
+              <button
+                type='button'
+                className='modal-close-button'
+                data-dismiss='modal'
+                aria-label='Close'
+                onClick={hide}
+              >
+                <span aria-hidden='true'>&times;</span>
+              </button>
+            </div>
+            <div>
+              <form onSubmit={handleSubmit}>
+                <div className='group'>
+                  <label htmlFor='title'>Title</label>
+                  <input
+                    placeholder={mural.title}
+                    type='text'
+                    name='title'
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className='group'>
+                  <label htmlFor='artist'>Artist</label>
+                  <input
+                    placeholder={mural.artist}
+                    type='text'
+                    name='artist'
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className='group'>
+                  <label htmlFor='instagram'>Instagram</label>
+                  <input
+                    placeholder={mural.instagram}
+                    type='text'
+                    name='instagram'
+                    onChange={handleChange}
+                  />
+                </div>
+                <img src={mural.cloudinaryUrl} alt='' />
+                <div className='group'>
+                  <label htmlFor='file'>Change image?</label>
+                  <input
+                    ref={fileInput}
+                    type='file'
+                    name='file'
+                    id='file'
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      setFile(file);
+                    }}
+                  />
+                </div>
 
-                  <button type='submit'>Submit Changes</button>
-                </form>
-              </div>
+                <button type='submit'>Submit Changes</button>
+              </form>
             </div>
           </div>
-          <style jsx>{`
+        </div>
+        <style jsx>{`
             .modal-overlay {
               position: fixed;
               top: 0;
@@ -203,9 +202,9 @@ const CreateMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
               margin-top: 0.5rem;
             }
           `}</style>
-        </React.Fragment>,
-        document.body
-      )
+      </React.Fragment>,
+      document.body
+    )
     : null;
 };
 

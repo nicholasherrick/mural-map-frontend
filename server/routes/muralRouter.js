@@ -27,7 +27,6 @@ exports.createMural = async function (req, res, next) {
     let path = `./files/${req.file.filename}`;
     cloudinary.uploader
       .upload(path, async function (err, image) {
-        console.log(image);
         await db.Mural.create({
           title: req.body.title,
           artist: req.body.artist,

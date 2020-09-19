@@ -30,11 +30,7 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
     if (file) {
       formData.append('file', file);
     }
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
     MuralService.createMural(formData, user._id).then((res) => {
-      console.log(res.status);
       if (res.status === 200) {
         setTimeout(function () {
           window.location.reload();
@@ -45,76 +41,76 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
 
   return isShowing
     ? ReactDOM.createPortal(
-        <React.Fragment>
-          <div className='modal-overlay' />
-          <div
-            className='modal-wrapper'
-            aria-modal
-            aria-hidden
-            tabIndex={-1}
-            role='dialog'
-          >
-            <div className='modal'>
-              <div className='modal-header'>
-                <button
-                  type='button'
-                  className='modal-close-button'
-                  data-dismiss='modal'
-                  aria-label='Close'
-                  onClick={hide}
-                >
-                  <span aria-hidden='true'>&times;</span>
-                </button>
-              </div>
-              <div>
-                <form onSubmit={handleSubmit}>
-                  <div className='group'>
-                    <label htmlFor='title'>Title</label>
-                    <input
-                      placeholder='title'
-                      type='text'
-                      name='title'
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className='group'>
-                    <label htmlFor='artist'>Artist</label>
-                    <input
-                      placeholder='artist'
-                      type='text'
-                      name='artist'
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className='group'>
-                    <label htmlFor='instagram'>Instagram</label>
-                    <input
-                      placeholder='instagram'
-                      type='text'
-                      name='instagram'
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className='group'>
-                    <label htmlFor='file'>Choose Image</label>
-                    <input
-                      ref={fileInput}
-                      accept='image/*'
-                      type='file'
-                      name='file'
-                      id='file'
-                      onChange={(e) => {
-                        const file = e.target.files[0];
-                        setFile(file);
-                      }}
-                    />
-                  </div>
-                  <button type='submit'>Submit</button>
-                </form>
-              </div>
+      <React.Fragment>
+        <div className='modal-overlay' />
+        <div
+          className='modal-wrapper'
+          aria-modal
+          aria-hidden
+          tabIndex={-1}
+          role='dialog'
+        >
+          <div className='modal'>
+            <div className='modal-header'>
+              <button
+                type='button'
+                className='modal-close-button'
+                data-dismiss='modal'
+                aria-label='Close'
+                onClick={hide}
+              >
+                <span aria-hidden='true'>&times;</span>
+              </button>
+            </div>
+            <div>
+              <form onSubmit={handleSubmit}>
+                <div className='group'>
+                  <label htmlFor='title'>Title</label>
+                  <input
+                    placeholder='title'
+                    type='text'
+                    name='title'
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className='group'>
+                  <label htmlFor='artist'>Artist</label>
+                  <input
+                    placeholder='artist'
+                    type='text'
+                    name='artist'
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className='group'>
+                  <label htmlFor='instagram'>Instagram</label>
+                  <input
+                    placeholder='instagram'
+                    type='text'
+                    name='instagram'
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className='group'>
+                  <label htmlFor='file'>Choose Image</label>
+                  <input
+                    ref={fileInput}
+                    accept='image/*'
+                    type='file'
+                    name='file'
+                    id='file'
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      setFile(file);
+                    }}
+                  />
+                </div>
+                <button type='submit'>Submit</button>
+              </form>
             </div>
           </div>
-          <style jsx>{`
+        </div>
+        <style jsx>{`
             .modal-overlay {
               position: fixed;
               top: 0;
@@ -183,9 +179,9 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
               margin-top: 0.5rem;
             }
           `}</style>
-        </React.Fragment>,
-        document.body
-      )
+      </React.Fragment>,
+      document.body
+    )
     : null;
 };
 

@@ -14,9 +14,24 @@ export default {
       } else return { message: { msgBody: 'Unauthorized' }, msgError: true };
     });
   },
+  // createMural: (mural, userId) => {
+  //   return axios
+  //     .post(`/api/users/${userId}/mural/create`, mural, headers)
+  //     .then((response) => {
+  //       if (response.status !== 401) {
+  //         return response;
+  //       } else return { message: { msgBody: 'Unauthorized' }, msgError: true };
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // },
   createMural: (mural, userId) => {
-    return axios
-      .post(`/api/users/${userId}/mural/create`, mural, headers)
+    return fetch(`/api/users/${userId}/mural/create`, {
+      method: 'POST',
+      headers,
+      body: mural
+    })
       .then((response) => {
         if (response.status !== 401) {
           return response;
