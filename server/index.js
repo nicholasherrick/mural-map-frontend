@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const next = require('next');
 const cors = require('cors');
+const sslRedirect = require('heroku-ssl-redirect');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const os = require('os');
@@ -19,12 +20,7 @@ app
     const server = express();
 
     // Use https in production
-    function requireHTTPS(req, res, next) {
-      if (!req.secure && req.get('x-forwarded-proto') !== 'https' && process.env.NODE_ENV !== 'development') {
-        return res.redirect(`https://${req.get('host')}${req.url}`);
-      }
-    }
-    server.use(requireHTTPS);
+    server.use(sslRedirect());
 
     const showRoutes = require('./routes/index.js');
 
