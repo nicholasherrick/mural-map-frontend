@@ -18,8 +18,7 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
   };
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
-
+    e.preventDefault();
     const formData = new FormData();
     formData.append('title', muralData.title);
     formData.append('artist', muralData.artist);
