@@ -19,15 +19,12 @@ app
     const server = express();
 
     // Use https in production
-    if (process.env.NODE_ENV === 'production') {
-      server.use((req, res, next) => {
-        if (req.header('x-fowarded-proto') !== 'https') {
-          res.redirect(`https://${req.header('host')}${req.url}`);
-        } else {
-          next()
-        }
-      });
+    function requireHTTPS(req, res, next) {
+      if (!req.secure && req.get('x-forwarded-proto') !== 'https' && process.env.NODE_ENV !== 'development') {
+        return res.redirect(`https://${req.get('host')}${req.url}`);
+      }
     }
+    server.use(requireHTTPS);
 
     const showRoutes = require('./routes/index.js');
 
