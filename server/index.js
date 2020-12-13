@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const next = require('next');
 const cors = require('cors');
-const sslRedirect = require('heroku-ssl-redirect');
+const sslRedirect = require('heroku-ssl-redirect').default;
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const os = require('os');
