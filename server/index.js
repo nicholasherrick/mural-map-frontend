@@ -17,6 +17,18 @@ app
   .prepare()
   .then(() => {
     const server = express();
+
+    // Use https in production
+    if (process.env.NODE_ENV === 'production') {
+      server.use((req, res, next) => {
+        if (req.header('x-fowarded-proto') !== 'https') {
+          res.redirect(`https://${req.header('host')}${req.url}`);
+        } else {
+          next()
+        }
+      });
+    }
+
     const showRoutes = require('./routes/index.js');
 
     server.use(cors());
