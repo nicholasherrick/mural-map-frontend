@@ -1,30 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Mural Map
 
-## Getting Started
+Mural Map is a full stack MERN application that allows users to find and discover murals. Using an interactive map with markers, the user can find murals that other users discovered and added to the database
 
-First, run the development server:
+![Screenshot1](./public/muralmap.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Demo The App
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[Click Here](https://muralmap.art/) to view the application on heroku (mobile device preferred)
+Live Credentials:
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+-   email: example@example.com
+-   password: password
 
-## Learn More
+## Tools and Technologies
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+-   Node
+-   Express
+-   React
+-   Next
+-   MongoDB
+-   Mongoose
+-   Json Web Tokens
+-   Google Maps Geocoding
+-   Cloudinary
+-   Multer

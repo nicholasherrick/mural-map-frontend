@@ -82,6 +82,12 @@ const Navbar = (props) => {
             border: black solid 2px;
             font-size: 1rem;
           }
+
+          @media screen and (max-width: 400px) {
+            ul li {
+              margin-right: 0;
+            }
+          }
         `}</style>
       </div>
     );
@@ -188,6 +194,12 @@ const Navbar = (props) => {
 
             ul li a {
               font-size: 1.1rem;
+            }
+          }
+
+          @media screen and (max-width: 400px) {
+            ul li {
+              margin-right: 0;
             }
           }
         `}</style>
