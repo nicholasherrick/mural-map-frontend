@@ -19,12 +19,17 @@ ul {
 }
 
 ul li {
-    margin-right: 2rem;
     padding: 1rem;
+
+    p {
+        margin: 0;
+        color: white;
+        font-size: 1rem;
+    }
 }
 
 ul li a {
-    color: #fff;
+    color: yellow;
     text-decoration: none;
     font-size: 2rem;
 }
@@ -51,18 +56,21 @@ button:hover {
 }
 
 @media screen and (max-width: 900px) {
-    ul li a {
-        font-size: 1.1rem;
+    ul li {
+        a {
+            font-size: 1.5rem;
+        }
     }
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 400px) {
     .app-links {
         flex-direction: column;
     }
 
     .auth-links {
-        flex-direction: column;
+        width: 100%;
+        justify-content: space-evenly;
     }
 
     ul {
@@ -73,11 +81,5 @@ button:hover {
         padding: 0.3rem 0;
         margin: 0;
         text-align: center;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    ul li {
-        margin-right: 0;
     }
 }

@@ -4,8 +4,10 @@
 
     h1 {
         position: absolute;
-        top: 6rem;
-        left: 1rem;
+        top: 9rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: fit-content;
         z-index: 10;
         margin: 0;
         padding: 0;

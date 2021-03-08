@@ -60,7 +60,7 @@ const Navbar = (props) => {
                     <div className="auth-links">
                         <li>
                             <Link href="/profile">
-                                <a>Logged in as {user.username}</a>
+                                <p>Logged in as {user.username}</p>
                             </Link>
                         </li>
                         <li>
