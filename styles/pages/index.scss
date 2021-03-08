@@ -1,0 +1,31 @@
+.map-container {
+    .gm-style-iw {
+    }
+
+    h1 {
+        position: absolute;
+        top: 6rem;
+        left: 1rem;
+        z-index: 10;
+        margin: 0;
+        padding: 0;
+        background-color: white;
+    }
+
+    p {
+        margin: 0.3rem 0;
+    }
+
+    img {
+        max-width: 200px;
+    }
+
+    button {
+        margin: 0 0.5rem;
+    }
+
+    a {
+        color: yellow;
+        margin: 0.3rem 0;
+    }
+}
