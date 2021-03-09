@@ -55,30 +55,6 @@ function Search({ panTo }) {
                     </ComboboxList>
                 </ComboboxPopover>
             </Combobox>
-
-            <style jsx>{`
-                .search {
-                    position: absolute;
-                    top: 5.5rem;
-                    right: 50%;
-                    transform: translateX(50%);
-                    width: 100%;
-                    max-width: 400px;
-                    z-index: 10;
-                }
-
-                @media screen and (max-width: 556px) {
-                    .search {
-                        top: 7rem;
-                    }
-                }
-
-                @media screen and (max-width: 400px) {
-                    .search {
-                        top: 9rem;
-                    }
-                }
-            `}</style>
         </div>
     );
 }

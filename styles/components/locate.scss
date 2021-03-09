@@ -1,0 +1,32 @@
+.locate {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 3em;
+    left: 4em;
+
+    button {
+        background: none;
+        border: none;
+        z-index: 10;
+    }
+
+    small {
+        // bottom: 2em;
+        // left: 1em;
+        background: none;
+        border: none;
+        z-index: 10;
+        background-color: white;
+        font-size: 1rem;
+        border: 1px solid gray;
+        padding: 5px;
+    }
+
+    img {
+        width: 30px;
+        cursor: pointer;
+    }
+}

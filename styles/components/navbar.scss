@@ -4,82 +4,102 @@
     left: 0;
     width: 100%;
     z-index: 10;
-}
 
-ul {
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    list-style: none;
-    background: #333;
-    color: #fff;
-    margin: 0;
-    width: 100%;
-}
-
-ul li {
-    padding: 1rem;
-
-    p {
+    ul {
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        list-style: none;
+        background: #333;
+        color: #fff;
         margin: 0;
-        color: white;
-        font-size: 1rem;
+        width: 100%;
     }
-}
 
-ul li a {
-    color: yellow;
-    text-decoration: none;
-    font-size: 2rem;
-}
-
-.app-links {
-    display: flex;
-}
-
-.auth-links {
-    display: flex;
-    align-items: center;
-}
-
-button {
-    padding: 0.5rem 1rem;
-    background-color: yellow;
-    font-weight: bold;
-    border: black solid 2px;
-    font-size: 1rem;
-}
-
-button:hover {
-    cursor: pointer;
-}
-
-@media screen and (max-width: 900px) {
     ul li {
-        a {
-            font-size: 1.5rem;
+        padding: 1rem;
+        border-right: lightgray solid 1px;
+
+        p {
+            margin: 0;
+            color: white;
+            font-size: 1rem;
+        }
+
+        &:last-child {
+            border: none;
         }
     }
-}
 
-@media screen and (max-width: 400px) {
+    ul li a {
+        color: yellow;
+        text-decoration: none;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
     .app-links {
-        flex-direction: column;
+        display: flex;
+
+        li {
+            border: lightgray solid 1px !important;
+
+            &:last-child {
+                border-left: none !important;
+            }
+        }
     }
 
     .auth-links {
-        width: 100%;
-        justify-content: space-evenly;
+        display: flex;
+        align-items: center;
     }
 
-    ul {
-        flex-direction: column;
+    button {
+        padding: 0.5rem 1rem;
+        background-color: yellow;
+        font-weight: bold;
+        border: black solid 2px;
+        font-size: 1rem;
     }
 
-    ul li {
-        padding: 0.3rem 0;
-        margin: 0;
-        text-align: center;
+    button:hover {
+        cursor: pointer;
+    }
+
+    @media screen and (max-width: 900px) {
+        ul li {
+            a {
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        .app-links {
+            flex-direction: column;
+
+            li:last-child {
+                border-left: 1px solid lightgray !important;
+                border-top: none !important;
+            }
+        }
+
+        .auth-links {
+            width: 100%;
+            justify-content: space-evenly;
+        }
+
+        ul {
+            flex-direction: column;
+        }
+
+        ul li {
+            padding: 0.3rem 0;
+            margin: 0;
+            text-align: center;
+            border: none;
+        }
     }
 }

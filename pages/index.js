@@ -45,6 +45,7 @@ const Index = () => {
     });
     const [markers, setMarkers] = useState([]);
     const [selected, setSelected] = useState(null);
+    console.log(selected);
 
     const onMapClick = useCallback((event) => {
         if (isAuthenticated) {
@@ -164,7 +165,7 @@ const Index = () => {
                                 onCloseClick={() => {
                                     setSelected(null);
                                 }}>
-                                <div>
+                                <div className="info-window">
                                     {selected.cloudinaryUrl ? (
                                         <img src={selected.cloudinaryUrl}></img>
                                     ) : null}

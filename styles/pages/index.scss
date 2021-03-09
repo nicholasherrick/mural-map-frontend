@@ -1,5 +1,16 @@
 .map-container {
-    .gm-style-iw {
+    .info-window {
+        padding: 1em;
+
+        img {
+            border-radius: 10px;
+            border: lightgray solid 1px;
+        }
+
+        h2 {
+            text-align: center;
+            text-decoration: underline;
+        }
     }
 
     h1 {
@@ -27,7 +38,7 @@
     }
 
     a {
-        color: yellow;
+        color: blue;
         margin: 0.3rem 0;
     }
 }
