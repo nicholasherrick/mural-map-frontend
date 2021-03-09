@@ -53,8 +53,7 @@ const Index = () => {
         }
     }, []);
 
-    const mapRef = useRef();
-    const onMapLoad = useCallback((map) => {
+    const getMarkers = () => {
         MuralService.getMurals().then((data) => {
             data.map((mural) => {
                 setMarkers((current) => [
@@ -77,6 +76,11 @@ const Index = () => {
                 });
             });
         });
+    };
+
+    const mapRef = useRef();
+    const onMapLoad = useCallback((map) => {
+        getMarkers();
         navigator.geolocation.getCurrentPosition((position) => {
             setLocation({
                 lat: position.coords.latitude,
@@ -115,6 +119,7 @@ const Index = () => {
                             hide={toggle}
                             lat={muralLocation.lat}
                             lng={muralLocation.lng}
+                            getMarkers={getMarkers}
                         />
 
                         <EditMuralModal
@@ -123,6 +128,8 @@ const Index = () => {
                             lat={muralLocation.lat}
                             lng={muralLocation.lng}
                             mural={selected}
+                            getMarkers={getMarkers}
+                            setSelected={setSelected}
                         />
 
                         {navigator.geolocation ? (
@@ -139,9 +146,9 @@ const Index = () => {
                         ) : null}
 
                         {isLoaded
-                            ? markers.map((marker) => (
+                            ? markers.map((marker, i) => (
                                   <Marker
-                                      key={marker.id}
+                                      key={i}
                                       position={{ lat: marker.lat, lng: marker.lng }}
                                       icon={{
                                           url: '/museum.svg',
@@ -180,7 +187,8 @@ const Index = () => {
                                     {isAuthenticated ? (
                                         <div>
                                             <button
-                                                onClick={() => {
+                                                onClick={(e) => {
+                                                    e.preventDefault();
                                                     setMuralLocation({
                                                         lat: selected.lat,
                                                         lng: selected.lng
@@ -190,15 +198,18 @@ const Index = () => {
                                                 Edit
                                             </button>
                                             <button
-                                                onClick={() => {
-                                                    MuralService.deleteMural(
-                                                        selected.id,
-                                                        user._id
-                                                    ).then((res) => {
-                                                        if (res.status === 200) {
-                                                            window.location.reload();
-                                                        }
-                                                    });
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    MuralService.deleteMural(selected.id, user._id)
+                                                        .then((res) => {
+                                                            if (res.status === 200) {
+                                                                setMarkers([]);
+                                                                getMarkers();
+                                                            }
+                                                        })
+                                                        .then(() => {
+                                                            setSelected(null);
+                                                        });
                                                 }}>
                                                 Delete
                                             </button>

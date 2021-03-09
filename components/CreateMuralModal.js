@@ -3,7 +3,7 @@ import { useState, useContext } from 'react';
 import MuralService from '../services/MuralService';
 import { AuthContext } from '../context/AuthContext';
 
-const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
+const CreateMuralModal = ({ isShowing, hide, lat, lng, getMarkers }) => {
     const { user } = useContext(AuthContext);
     const [muralData, setMuralData] = useState({
         title: '',
@@ -19,6 +19,7 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         const formData = new FormData();
         formData.append('title', muralData.title);
         formData.append('artist', muralData.artist);
@@ -32,9 +33,8 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
 
         MuralService.createMural(formData, user._id).then((res) => {
             if (res.status === 200) {
-                setTimeout(function () {
-                    window.location.reload();
-                }, 4000);
+                getMarkers();
+                hide();
             }
         });
     };
@@ -106,7 +106,7 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
                                           />
                                       </div>
                                       <button className="submit" type="submit">
-                                          Submit
+                                          Create
                                       </button>
                                   </form>
                               </div>

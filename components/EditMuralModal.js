@@ -3,7 +3,7 @@ import { useState, useContext } from 'react';
 import MuralService from '../services/MuralService';
 import { AuthContext } from '../context/AuthContext';
 
-const EditMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
+const EditMuralModal = ({ isEditShowing, hide, lat, lng, mural, getMarkers, setSelected }) => {
     const { user } = useContext(AuthContext);
     const [muralData, setMuralData] = useState({
         title: null,
@@ -20,7 +20,7 @@ const EditMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
     };
 
     const handleSubmit = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
 
         const formData = new FormData();
         if (muralData.title) {
@@ -49,9 +49,16 @@ const EditMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
 
         MuralService.editMural(mural.id, user._id, formData).then((res) => {
             if (res.status === 200) {
-                setTimeout(function () {
-                    window.location.reload();
-                }, 4000);
+                let updatedMural = {
+                    ...res.data,
+                    lat: res.data.lattitude,
+                    lng: res.data.longitude
+                };
+                delete updatedMural.lattitude;
+                delete updatedMural.longitude;
+                getMarkers();
+                setSelected(updatedMural);
+                hide();
             }
         });
     };
