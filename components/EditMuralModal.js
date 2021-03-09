@@ -34,7 +34,7 @@ const EditMuralModal = ({ isEditShowing, hide, lat, lng, mural }) => {
             formData.append('artist', mural.artist);
         }
         if (muralData.instagram) {
-            formData.append('instagram', muralData.instagram);
+            formData.append('instagram', muralData.instagram.toLowerCase());
         } else {
             formData.append('instagram', mural.instagram);
         }

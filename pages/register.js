@@ -41,7 +41,13 @@ const Register = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (user.password === user.repeatPassword) {
-            AuthService.register(user).then((data) => {
+            const userData = {
+                email: user.email.toLowerCase(),
+                username: user.username,
+                password: user.password,
+                instagram: user.instagram.toLowerCase()
+            };
+            AuthService.register(userData).then((data) => {
                 const { message } = data;
                 setMessage(message);
                 if (!message.msgError) {

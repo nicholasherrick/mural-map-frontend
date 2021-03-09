@@ -4,8 +4,8 @@ import Search from '../components/Search';
 import Locate from '../components/Locate';
 import CreateMuralModal from '../components/CreateMuralModal';
 import EditMuralModal from '../components/EditMuralModal';
-import useModal from '../components/useModal';
-import useEditModal from '../components/useEditModal';
+import useModal from '../helpers/useModal';
+import useEditModal from '../helpers/useEditModal';
 import MuralService from '../services/MuralService';
 import { useContext, useState, useCallback, useRef, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
@@ -45,7 +45,6 @@ const Index = () => {
     });
     const [markers, setMarkers] = useState([]);
     const [selected, setSelected] = useState(null);
-    console.log(selected);
 
     const onMapClick = useCallback((event) => {
         if (isAuthenticated) {
@@ -53,8 +52,6 @@ const Index = () => {
             toggle();
         }
     }, []);
-
-    // useEffect(() => {});
 
     const mapRef = useRef();
     const onMapLoad = useCallback((map) => {

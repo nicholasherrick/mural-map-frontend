@@ -18,7 +18,11 @@ const Login = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        AuthService.login(user).then((data) => {
+        const userData = {
+            email: user.email.toLowerCase(),
+            password: user.password
+        };
+        AuthService.login(userData).then((data) => {
             const { isAuthenticated, user, message } = data;
             if (isAuthenticated) {
                 authContext.setUser(user);

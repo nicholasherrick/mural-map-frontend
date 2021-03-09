@@ -22,13 +22,14 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng }) => {
         const formData = new FormData();
         formData.append('title', muralData.title);
         formData.append('artist', muralData.artist);
-        formData.append('instagram', muralData.instagram);
+        formData.append('instagram', muralData.instagram.toLowerCase());
         formData.append('lattitude', lat);
         formData.append('longitude', lng);
 
         if (file) {
             formData.append('file', file);
         }
+
         MuralService.createMural(formData, user._id).then((res) => {
             if (res.status === 200) {
                 setTimeout(function () {
