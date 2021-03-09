@@ -10,6 +10,7 @@ const Login = (props) => {
     const [user, setUser] = useState({ email: '', password: '' });
     const [message, setMessage] = useState(null);
     const authContext = useContext(AuthContext);
+    const { isAuthenticated } = useContext(AuthContext);
 
     const handleChange = (event) => {
         setUser({ ...user, [event.target.name]: event.target.value });
@@ -29,43 +30,48 @@ const Login = (props) => {
         });
     };
 
-    return (
-        <Layout>
-            <div className="login-form">
-                <h2>Login</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-div">
-                        <div className="input-group">
-                            <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                onChange={handleChange}
-                                placeholder="email@example.com"
-                            />
+    if (isAuthenticated) {
+        Router.push('/');
+        return <h1>Error, already logged in</h1>;
+    } else {
+        return (
+            <Layout>
+                <div className="login-form">
+                    <h2>Login</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-div">
+                            <div className="input-group">
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    onChange={handleChange}
+                                    placeholder="email@example.com"
+                                />
+                            </div>
+                            <div className="input-group">
+                                <label htmlFor="password">Password</label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    onChange={handleChange}
+                                    placeholder="enter password"
+                                />
+                            </div>
+                            <button type="submit">Login</button>
+                            <p className="text-center">
+                                Need an account?{' '}
+                                <Link href="/register">
+                                    <a>Register</a>
+                                </Link>
+                            </p>
+                            {message ? <Message message={message} /> : null}
                         </div>
-                        <div className="input-group">
-                            <label htmlFor="password">Password</label>
-                            <input
-                                type="password"
-                                name="password"
-                                onChange={handleChange}
-                                placeholder="enter password"
-                            />
-                        </div>
-                        <button type="submit">Login</button>
-                        <p className="text-center">
-                            Need an account?{' '}
-                            <Link href="/register">
-                                <a>Register</a>
-                            </Link>
-                        </p>
-                        {message ? <Message message={message} /> : null}
-                    </div>
-                </form>
-            </div>
-        </Layout>
-    );
+                    </form>
+                </div>
+            </Layout>
+        );
+    }
 };
 
 export default Login;

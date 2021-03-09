@@ -1,8 +1,9 @@
 import Router from 'next/router';
 import Link from 'next/link';
 import Layout from '../components/Layout';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useContext, useRef, useEffect } from 'react';
 import AuthService from '../services/AuthService';
+import { AuthContext } from '../context/AuthContext';
 import Message from '../components/Message';
 
 const Register = (props) => {
@@ -15,6 +16,7 @@ const Register = (props) => {
     });
     const [message, setMessage] = useState(null);
     let timerId = useRef(null);
+    const { isAuthenticated } = useContext(AuthContext);
 
     useEffect(() => {
         return () => {
@@ -51,75 +53,80 @@ const Register = (props) => {
         }
     };
 
-    return (
-        <Layout>
-            <div className="register-form">
-                <h2>Register</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-div">
-                        <div className="input-group">
-                            <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                value={user.email}
-                                onChange={handleChange}
-                                placeholder="email@example.com"
-                            />
+    if (isAuthenticated) {
+        Router.push('/');
+        return <h1>Error, already logged in</h1>;
+    } else {
+        return (
+            <Layout>
+                <div className="register-form">
+                    <h2>Register</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-div">
+                            <div className="input-group">
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={user.email}
+                                    onChange={handleChange}
+                                    placeholder="email@example.com"
+                                />
+                            </div>
+                            <div className="input-group">
+                                <label htmlFor="email">Username</label>
+                                <input
+                                    type="text"
+                                    name="username"
+                                    value={user.username}
+                                    onChange={handleChange}
+                                    placeholder="username"
+                                />
+                            </div>
+                            <div className="input-group">
+                                <label htmlFor="instagram">Instagram (optional)</label>
+                                <input
+                                    type="text"
+                                    name="instagram"
+                                    value={user.instagram}
+                                    onChange={handleChange}
+                                    placeholder="instagram"
+                                />
+                            </div>
+                            <div className="input-group">
+                                <label htmlFor="password">Password</label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    value={user.password}
+                                    onChange={handleChange}
+                                    placeholder="enter password"
+                                />
+                            </div>
+                            <div className="input-group">
+                                <label htmlFor="repeatPassword">Retype Password</label>
+                                <input
+                                    type="password"
+                                    name="repeatPassword"
+                                    value={user.repeatPassword}
+                                    onChange={handleChange}
+                                    placeholder="retype password"
+                                />
+                            </div>
+                            <button type="submit">Register</button>
+                            <p>
+                                Have an account?{' '}
+                                <Link href="/login">
+                                    <a>Login</a>
+                                </Link>
+                            </p>
+                            {message ? <Message message={message} /> : null}
                         </div>
-                        <div className="input-group">
-                            <label htmlFor="email">Username</label>
-                            <input
-                                type="text"
-                                name="username"
-                                value={user.username}
-                                onChange={handleChange}
-                                placeholder="username"
-                            />
-                        </div>
-                        <div className="input-group">
-                            <label htmlFor="instagram">Instagram (optional)</label>
-                            <input
-                                type="text"
-                                name="instagram"
-                                value={user.instagram}
-                                onChange={handleChange}
-                                placeholder="instagram"
-                            />
-                        </div>
-                        <div className="input-group">
-                            <label htmlFor="password">Password</label>
-                            <input
-                                type="password"
-                                name="password"
-                                value={user.password}
-                                onChange={handleChange}
-                                placeholder="enter password"
-                            />
-                        </div>
-                        <div className="input-group">
-                            <label htmlFor="repeatPassword">Retype Password</label>
-                            <input
-                                type="password"
-                                name="repeatPassword"
-                                value={user.repeatPassword}
-                                onChange={handleChange}
-                                placeholder="retype password"
-                            />
-                        </div>
-                        <button type="submit">Register</button>
-                        <p>
-                            Have an account?{' '}
-                            <Link href="/login">
-                                <a>Login</a>
-                            </Link>
-                        </p>
-                        {message ? <Message message={message} /> : null}
-                    </div>
-                </form>
-            </div>
-        </Layout>
-    );
+                    </form>
+                </div>
+            </Layout>
+        );
+    }
 };
 
 export default Register;
