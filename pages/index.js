@@ -13,17 +13,20 @@ import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps
 import moment from 'moment';
 import mapStyles from '../mapStyles';
 
-const { publicRuntimeConfig } = getConfig();
+const { publicRuntimeConfig } = getConfig(); // Grab ENV variables
 
 const libraries = ['places'];
+
 const mapContainerStyle = {
     width: '100%',
     height: '100vh'
 };
+
 const center = {
     lat: 39.739235,
     lng: -104.99025
 };
+
 const options = {
     styles: mapStyles,
     disableDefaultUI: true,
@@ -31,20 +34,24 @@ const options = {
 };
 
 const Index = () => {
-    const { isAuthenticated, user } = useContext(AuthContext);
-    const [location, setLocation] = useState({ lat: 39.739235, lng: -104.99025 });
-    const [muralLocation, setMuralLocation] = useState({ lat: '', lng: '' });
-    const { isShowing, toggle } = useModal();
-    const { isEditShowing, editToggle } = useEditModal();
-
+    // Pass API keys
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey:
             process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ||
             publicRuntimeConfig.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
         libraries: libraries
     });
+
+    // State
+    const { isAuthenticated, user } = useContext(AuthContext);
+    const [location, setLocation] = useState({ lat: 39.739235, lng: -104.99025 });
+    const [muralLocation, setMuralLocation] = useState({ lat: '', lng: '' });
     const [markers, setMarkers] = useState([]);
     const [selected, setSelected] = useState(null);
+
+    // Modal toggles
+    const { isShowing, toggle } = useModal();
+    const { isEditShowing, editToggle } = useEditModal();
 
     const onMapClick = useCallback((event) => {
         if (isAuthenticated) {
@@ -79,6 +86,7 @@ const Index = () => {
     };
 
     const mapRef = useRef();
+
     const onMapLoad = useCallback((map) => {
         getMarkers();
         navigator.geolocation.getCurrentPosition((position) => {
@@ -86,6 +94,8 @@ const Index = () => {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             });
+            mapRef.current.panTo({ lat: position.coords.latitude, lng: position.coords.longitude });
+            mapRef.current.setZoom(9);
         });
         mapRef.current = map;
     }, []);
@@ -101,15 +111,13 @@ const Index = () => {
     return (
         <Layout background="none">
             <div className="map-container">
-                {!isAuthenticated ? <h1>Welcome to Mural Map</h1> : null}
-
                 <div>
                     <Search panTo={panTo} />
                     <Locate panTo={panTo} />
 
                     <GoogleMap
                         mapContainerStyle={mapContainerStyle}
-                        zoom={8}
+                        zoom={4}
                         center={center}
                         options={options}
                         onClick={onMapClick}

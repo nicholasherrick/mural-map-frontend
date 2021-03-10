@@ -13,24 +13,6 @@
         }
     }
 
-    h1 {
-        position: absolute;
-        top: 9rem;
-        left: 50%;
-        transform: translateX(-50%);
-        width: fit-content;
-        z-index: 10;
-        margin: 0;
-        padding: 0;
-        background-color: white;
-    }
-
-    @media screen and (max-width: 400px) {
-        h1 {
-            top: 10rem;
-        }
-    }
-
     p {
         margin: 0.3rem 0;
     }
