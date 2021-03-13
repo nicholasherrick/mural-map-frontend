@@ -13,7 +13,7 @@ const Profile = () => {
         return <h1>Error, not logged in</h1>;
     } else {
         return (
-            <Layout>
+            <Layout title="Profile">
                 {edit ? (
                     <div className="profile-container">
                         <h2>Edit Profile</h2>

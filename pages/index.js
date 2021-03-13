@@ -109,7 +109,7 @@ const Index = () => {
     if (!isLoaded) return 'Loading Map';
 
     return (
-        <Layout background="none">
+        <Layout background="none" title={isAuthenticated ? 'Murals' : 'Welcome'}>
             <div className="map-container">
                 <div>
                     <Search panTo={panTo} />

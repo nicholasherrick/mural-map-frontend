@@ -6,7 +6,7 @@ import AuthService from '../services/AuthService';
 import { AuthContext } from '../context/AuthContext';
 import Message from '../components/Message';
 
-const Register = (props) => {
+const Register = () => {
     const [user, setUser] = useState({
         email: '',
         username: '',
@@ -64,7 +64,7 @@ const Register = (props) => {
         return <h1>Error, already logged in</h1>;
     } else {
         return (
-            <Layout>
+            <Layout title="Register">
                 <div className="register-form">
                     <h2>Register</h2>
                     <form onSubmit={handleSubmit}>

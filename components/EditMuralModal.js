@@ -91,7 +91,10 @@ const EditMuralModal = ({ isEditShowing, hide, lat, lng, mural, getMarkers, setS
                                       <div className="group">
                                           <label htmlFor="title">Title</label>
                                           <input
-                                              placeholder={mural.title}
+                                              defaultValue={mural.title ? mural.title : null}
+                                              placeholder={
+                                                  mural.title ? mural.title : 'enter title'
+                                              }
                                               type="text"
                                               name="title"
                                               onChange={handleChange}
@@ -100,7 +103,10 @@ const EditMuralModal = ({ isEditShowing, hide, lat, lng, mural, getMarkers, setS
                                       <div className="group">
                                           <label htmlFor="artist">Artist</label>
                                           <input
-                                              placeholder={mural.artist}
+                                              defaultValue={mural.artist ? mural.artist : null}
+                                              placeholder={
+                                                  mural.artist ? mural.artist : 'enter artist'
+                                              }
                                               type="text"
                                               name="artist"
                                               onChange={handleChange}
@@ -109,13 +115,23 @@ const EditMuralModal = ({ isEditShowing, hide, lat, lng, mural, getMarkers, setS
                                       <div className="group">
                                           <label htmlFor="instagram">Instagram</label>
                                           <input
-                                              placeholder={mural.instagram}
+                                              defaultValue={
+                                                  mural.instagram ? mural.instagram : null
+                                              }
+                                              placeholder={
+                                                  mural.instagram
+                                                      ? mural.instagram
+                                                      : 'enter instagram handle'
+                                              }
                                               type="text"
                                               name="instagram"
                                               onChange={handleChange}
                                           />
                                       </div>
-                                      <img src={mural.cloudinaryUrl} alt="" />
+                                      <img
+                                          src={mural.cloudinaryUrl ? mural.cloudinaryUrl : ''}
+                                          alt=""
+                                      />
                                       <div className="group">
                                           <label htmlFor="file">Change image?</label>
                                           <input

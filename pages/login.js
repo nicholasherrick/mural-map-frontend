@@ -6,7 +6,7 @@ import { useState, useContext } from 'react';
 import AuthService from '../services/AuthService';
 import { AuthContext } from '../context/AuthContext';
 
-const Login = (props) => {
+const Login = () => {
     const [user, setUser] = useState({ email: '', password: '' });
     const [message, setMessage] = useState(null);
     const authContext = useContext(AuthContext);
@@ -39,7 +39,7 @@ const Login = (props) => {
         return <h1>Error, already logged in</h1>;
     } else {
         return (
-            <Layout>
+            <Layout title="Login">
                 <div className="login-form">
                     <h2>Login</h2>
                     <form onSubmit={handleSubmit}>
