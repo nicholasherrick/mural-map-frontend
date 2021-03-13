@@ -15,6 +15,7 @@ const Register = () => {
         instagram: ''
     });
     const [message, setMessage] = useState(null);
+    console.log(message);
     let timerId = useRef(null);
     const { isAuthenticated } = useContext(AuthContext);
 
@@ -56,6 +57,8 @@ const Register = () => {
                     }, 2000);
                 }
             });
+        } else {
+            setMessage({ msgBody: 'Passwords must match', msgError: true });
         }
     };
 
