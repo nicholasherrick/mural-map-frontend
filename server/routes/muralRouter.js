@@ -81,61 +81,50 @@ exports.deleteMural = async function (req, res, next) {
 };
 
 exports.editMural = async function (req, res, next) {
+    const updateMural = async (image = null) => {
+        const updatedMural = await db.Mural.findOneAndUpdate(
+            { _id: req.params.muralId },
+            {
+                $set: {
+                    title: req.body.title,
+                    artist: req.body.artist,
+                    instagram: req.body.instagram,
+                    cloudinaryUrl: image?.url,
+                    cloudinaryPublicId: image?.public_id
+                }
+            }
+        );
+        res.json(updatedMural);
+    };
     try {
         if (req.file) {
             let path = `./files/${req.file.filename}`;
-            cloudinary.uploader
-                .upload(path, async function (err, image) {
-                    await db.Mural.findOneAndUpdate(
-                        { _id: req.params.muralId },
-                        {
-                            $set: {
-                                title: req.body.title,
-                                artist: req.body.artist,
-                                instagram: req.body.instagram,
-                                cloudinaryUrl: image.url,
-                                cloudinaryPublicId: image.public_id
-                            }
-                        }
-                    );
-                })
-                .then(function () {
-                    fs.unlink(path, (err) => {
-                        if (err) {
-                            console.log(err);
-                            return;
-                        }
-                        console.log('File successfully removed from server');
-                    });
-                })
-                .then(function () {
-                    console.log(req.body.oldCloudinaryPublicId);
-                    cloudinary.uploader.destroy(req.body.oldCloudinaryPublicId, function (
-                        error,
-                        result
-                    ) {
-                        console.log(result);
-                        console.log(error);
-                    });
-                })
-                .catch(function (err) {
-                    console.log(err.error);
-                });
-            res.sendStatus(200);
-        } else {
-            let updatedMural = await db.Mural.findOneAndUpdate(
-                { _id: req.params.muralId },
-                {
-                    $set: {
-                        title: req.body.title,
-                        artist: req.body.artist,
-                        instagram: req.body.instagram
-                    }
-                },
-                { new: true }
+
+            const imageUpload = cloudinary.uploader.upload(path, async function (err, image) {
+                if (err) throw err;
+                updateMural(image);
+            });
+
+            const deleteFile = fs.unlink(path, (err) => {
+                if (err) throw err;
+                console.log('File successfully removed from server');
+            });
+
+            const oldImageDelete = cloudinary.uploader.destroy(
+                req.body.oldCloudinaryPublicId,
+                (err, result) => {
+                    if (err) throw err;
+                    console.log(result);
+                }
             );
-            res.json(updatedMural);
+
+            await imageUpload;
+            await deleteFile;
+            await oldImageDelete;
+
+            res.json(200);
         }
+        updateMural();
     } catch (err) {
         return next(err);
     }
