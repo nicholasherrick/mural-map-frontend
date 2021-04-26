@@ -5,8 +5,8 @@
     "background_color": "#333333",
     "display": "fullscreen",
     "orientation": "portrait",
-    "scope": "/https://muralmap.art/",
-    "start_url": "/https://muralmap.art/",
+    "scope": "/",
+    "start_url": "/",
     "icons": [
         {
             "src": "/android-icon-36x36.png",
