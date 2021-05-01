@@ -1,9 +1,9 @@
 {
     "name": "Mural Map",
-    "short_name": "Murals",
+    "short_name": "Mural Map",
     "theme_color": "#b9b912",
     "background_color": "#333333",
-    "display": "fullscreen",
+    "display": "standalone",
     "orientation": "portrait",
     "scope": "/",
     "start_url": "/",
