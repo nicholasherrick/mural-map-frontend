@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
-mongoose.set('debug', true);
-mongoose.Promise = Promise;
+const User = require('./User');
+const Mural = require('./Mural');
+
 mongoose.connect(process.env.MONGODB_URI, {
     keepAlive: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
-module.exports.User = require('./user');
-module.exports.Mural = require('./mural');
+mongoose.set('useCreateIndex', true);
+mongoose.set('debug', true);
+
+module.exports = { User, Mural };

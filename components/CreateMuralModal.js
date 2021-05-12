@@ -26,6 +26,7 @@ const CreateMuralModal = ({ isShowing, hide, lat, lng, getMarkers }) => {
         formData.append('instagram', muralData.instagram.toLowerCase());
         formData.append('lattitude', lat);
         formData.append('longitude', lng);
+        formData.append('userId', user._id);
 
         if (file) {
             formData.append('file', file);

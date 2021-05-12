@@ -26,6 +26,7 @@ exports.createMural = async function (req, res, next) {
         cloudinary.uploader
             .upload(path, async function (err, image) {
                 await db.Mural.create({
+                    userId: req.body.userId,
                     title: req.body.title,
                     artist: req.body.artist,
                     instagram: req.body.instagram,
@@ -50,11 +51,18 @@ exports.createMural = async function (req, res, next) {
         res.sendStatus(200);
     } else {
         await db.Mural.create({
+            userId: req.body.userId,
             title: req.body.title,
             artist: req.body.artist,
             instagram: req.body.instagram,
             lattitude: req.body.lattitude,
             longitude: req.body.longitude
+        }).then((dbMuralData) => {
+            return db.User.findOneAndUpdate(
+                { _id: req.body.userId },
+                { $push: { savedMurals: dbMuralData._id } },
+                { new: true }
+            );
         });
         res.sendStatus(200);
     }
@@ -63,18 +71,41 @@ exports.createMural = async function (req, res, next) {
 exports.deleteMural = async function (req, res, next) {
     try {
         const mural = await db.Mural.findById(req.params.muralId);
-        await db.Mural.findOneAndDelete({ _id: mural._id });
+        if (mural.userId === req.params.userId) {
+            await db.Mural.findOneAndDelete({ _id: mural._id }).then((dbMuralData) => {
+                if (!dbMuralData) {
+                    return res.status(404).json({ message: { msgBody: 'Mural not found!' } });
+                }
 
-        if (mural.cloudinaryPublicId) {
-            await cloudinary.uploader.destroy(mural.cloudinaryPublicId, function (error, result) {
-                console.log(error);
-                console.log(result);
+                return db.User.findOneAndUpdate(
+                    { savedMurals: req.params.muralId },
+                    { $pull: { savedMurals: req.params.muralId } },
+                    { new: true }
+                );
+            });
+
+            if (mural.cloudinaryPublicId) {
+                await cloudinary.uploader.destroy(
+                    mural.cloudinaryPublicId,
+                    function (error, result) {
+                        console.log(error);
+                        console.log(result);
+                    }
+                );
+
+                return res.status(200).json({
+                    message: { msgBody: 'Mural successfully deleted', msgError: false }
+                });
+            }
+
+            return res.status(200).json({
+                message: { msgBody: 'Mural successfully deleted', msgError: false }
+            });
+        } else {
+            res.status(401).json({
+                message: { msgBody: 'Unauthorized', msgError: true }
             });
         }
-
-        return res.status(200).json({
-            message: { msgBody: 'Mural successfully deleted', msgError: false }
-        });
     } catch (err) {
         return next(err);
     }

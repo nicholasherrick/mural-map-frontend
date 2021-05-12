@@ -1,8 +1,12 @@
-const mongoose = require('mongoose');
-const User = require('./user');
+const { Schema, model } = require('mongoose');
+const User = require('./User');
 
-const muralSchema = new mongoose.Schema(
+const muralSchema = new Schema(
     {
+        userId: {
+            type: String,
+            required: true
+        },
         title: {
             type: String,
             maxLength: 160,
@@ -52,6 +56,6 @@ muralSchema.pre('remove', async function (next) {
     }
 });
 
-const Mural = mongoose.model('Mural', muralSchema);
+const Mural = model('Mural', muralSchema);
 
 module.exports = Mural;

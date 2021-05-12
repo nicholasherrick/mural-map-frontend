@@ -67,6 +67,7 @@ const Index = () => {
                     ...current,
                     {
                         id: mural._id,
+                        userId: mural.userId,
                         time: mural.createdAt,
                         title: mural.title,
                         artist: mural.artist,
@@ -194,33 +195,40 @@ const Index = () => {
                                     <p>Added {moment(selected.time).fromNow()}</p>
                                     {isAuthenticated ? (
                                         <div>
-                                            <button
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    setMuralLocation({
-                                                        lat: selected.lat,
-                                                        lng: selected.lng
-                                                    });
-                                                    editToggle();
-                                                }}>
-                                                Edit
-                                            </button>
-                                            <button
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    MuralService.deleteMural(selected.id, user._id)
-                                                        .then((res) => {
-                                                            if (res.status === 200) {
-                                                                setMarkers([]);
-                                                                getMarkers();
-                                                            }
-                                                        })
-                                                        .then(() => {
-                                                            setSelected(null);
+                                            {user._id === selected.userId ? (
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setMuralLocation({
+                                                            lat: selected.lat,
+                                                            lng: selected.lng
                                                         });
-                                                }}>
-                                                Delete
-                                            </button>
+                                                        editToggle();
+                                                    }}>
+                                                    Edit
+                                                </button>
+                                            ) : null}
+                                            {user._id === selected.userId ? (
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        MuralService.deleteMural(
+                                                            selected.id,
+                                                            user._id
+                                                        )
+                                                            .then((res) => {
+                                                                if (res.status === 200) {
+                                                                    setMarkers([]);
+                                                                    getMarkers();
+                                                                }
+                                                            })
+                                                            .then(() => {
+                                                                setSelected(null);
+                                                            });
+                                                    }}>
+                                                    Delete
+                                                </button>
+                                            ) : null}
                                         </div>
                                     ) : null}
                                 </div>
